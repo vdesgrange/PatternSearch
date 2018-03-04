@@ -1,74 +1,48 @@
 % !TEX encoding = UTF-8 Unicode
 \chapter{Planning}
 
-\begin{figure}[h]
-    \begin{center}
-        \includegraphics[scale=0.40]{./ressources/graph/deployment.png}
-    \end{center}
-    \caption{Deployment diagram}
-    \label{Solution - Deployment diagram}
-\end{figure}
-\bigskip
-
-\Section{Backlogs}
+\section{Resumed Backlogs}
 \begin{enumerate}
-    \item Project structure - 1/2d
-
+    \item Project structure - 2h
     \item Command line interface - 1/2d
-    \begin{enumerate}
-        \item user interface
-        \item user entries processing
-        \item unit tests
-    \end{enumerate}
-
-    \item Matrice - 1d
-    \begin{enumerate}
-        \item Matrice data structure
-        \item formatting algorithm
-        \ unit tests - matrice access, simple research
-    \end{enumerate}
-
-    \item Operations management 3h
-
-    \item Search features 1d
-    \begin{enumerate}
-        \item search management
-        \item search algorithm
-        \item units test
-    \end{enumerate}
-
+    \item Matrice - 1.5d
+    \item Operations management 2h
+    \item Search features 1.5d
     \item FileProcessor 1d
-    \begin{enumerate}
-        \item read/write
-        \item uncryption
-        \item file processing
-        \item unit tests
-    \end{enumerate}
-
 \end{enumerate}
 
-\Section{Sprints}
-\subSection{Sprint 1}
-Sprint 1 should take 1.5 day. This time will be used to review further the application organisation.
-It will contain the initialisation of the application code structure, and a simple command line interface.
+\section{Sprints}
 
-    1 - Project structure
-    2 - Command line interface
+Division into sprints of the development cycle.
 
-\subSection{Sprint 2}
-Sprint 2 should take around 2,5 days. It implies the implementation of reading and processing method for
-the plain text file representing our 2 dimensional matrix of integers.
-This sprint implies review of algorithm to encrypt/unencrypt file.
-And a data structure validating criteria necessary to an optimal research in matrice.
+\subsection{Sprint 1}
+Sprint 1 should take 1.5 days.\\
+This time will be used to review further the application organisation, and review algorithms to encrypt/unencrypt file.\\
+It will contain the initialisation of the application code structure.\\
+The implementation of reading and processing method for 2 dimensional matrix of integers representation file.\\
+    \begin{itemize}
+        \item 1 - Project structure
+        \item 6 - File processor
+    \end{itemize}
 
-    6 - File processor
-    3 - Matrice
+\subsection{Sprint 2}
+Sprint 2 should take around 3.5 days.\\
+This time will be used to review possibilities between pattern search algorithm, and data structure optimising research.\\
+Implementation of an optimised Matrice data structure.\\
+Implementation of 3 types research algorithms responding to requested features.\\
+Testing of project criteria.
+    \begin{itemize}
+        \item 3 - Matrice
+        \item 5 - Search features
+    \end{itemize}
 
-\subSection{Sprint 3}
-Sprint 3 should take around 2,3 days.
-It contain the implementation operation management and 3 types research algorithms responding to requested features.
-It implies the validation of research criteria (speed optimisation and valid result), and full workflow testing.
-
-    4 - Operations management
-    5 - Search features
-    6 - Workflow validation
+\subsection{Sprint 3}
+Sprint 3 should take around 1.5 day.\\
+It implies the implementation of the command line interface.\\
+The implementation of search operations management used by CLI.\\
+Testing and validation of full workflow.
+    \begin{itemize}
+        \item 2 - Command line interface
+        \item 4 - Operations management
+        \item Workflow validation
+    \end{itemize}

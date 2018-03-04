@@ -1,0 +1,72 @@
+% !TEX encoding = UTF-8 Unicode
+\chapter{Backlogs}
+
+\section{Project structure - 2h}
+Implementation of solution code structure.
+
+\begin{figure}[h]
+    \begin{center}
+        \includegraphics[scale=0.40]{./ressources/graph/deployment.png}
+    \end{center}
+    \caption{Deployment diagram}
+    \label{Solution - Deployment diagram}
+\end{figure}
+\bigskip
+
+
+\section{Command line interface - 1/2 day}
+It should handle user entry in order to perform search.\\
+It should process user entry to extract request information.\\
+Assuming that the matrix data contains sensitive information, it should not be stored in plain text:\\
+- Command line interface should handle system arguments specifying file path and encryption key.\\
+- CLI should work with File processing class in order to work with specified file.\\
+\begin{enumerate}
+    \item user interface - 30m
+    \item user entries processing - 2h30
+    \item unit tests - 1h
+\end{enumerate}
+
+\section{Matrice structure - 1.5 day}
+In order to optimise research, and to be able to perform several research on the same matrice,\\
+we should store 2 dimensional matrix of integers from the plain text file into an optimal data structure.\\
+Some time should be taken to review the different data structure possible, and responding to search criteria.\\
+Algorithm will need to be implemented in order to perform 2D matrix from original file.\\
+\begin{enumerate}
+    \item Matrice data structure - 1/2d
+    \item formating algorithm - 1/2d
+    \item unit tests - matrice access, simple research - 1/2d
+\end{enumerate}
+
+\section{Operations management - 2 hours}
+Handle pattern search request.\\
+Manage list of operations to apply on specified 2D matrice.
+
+\section{Search Features - 1.5 day}
+There are 3 search functions to implement:
+\begin{description}
+    \item [search sequence] Find all rows that have a specific sequence of numbers (if that number sequence
+appears more than once for that row, you only need to print it once)
+    \item [search unordered] Find all rows that contain all of the required numbers (if number repeats, that row must
+contain at least that many number)
+    \item [search closest match] Find the row that has the closest match to a specific number sequence (just need to
+consider the number of matches)
+\end{description}
+Search features should be of better complexity than O(n) (n is matrix element count).\\
+
+\begin{enumerate}
+    \item search management - 2h
+    \item search algorithm - 1d
+    \item units test - 1/2d
+\end{enumerate}
+
+\section{File Processor - 1 day}
+User must be able to indicate the matrix data file they will be using through parameters(argc/argv).\\
+File processor should be able to read the data from the plain text file into a simple data structure (array).\\
+Assuming that the matrix data contains sensitive information, it should not be stored in plain text;\\
+File processor should handle an encryption algorithm to hide/access sensitive information.\\
+\begin{enumerate}
+    \item read/write - 2h
+    \item encryption - 1/2d
+    \item file processing - 1h
+    \item unit tests - 1h
+\end{enumerate}
