@@ -1,0 +1,20 @@
+@startuml
+
+class OperationManagement {
+    -vector<pair<string, int> > operations
+
+    +addOperation(string, int[])
+    -applyOperation(string, int[]): string
+    +applyListOperations(): vector<string>
+}
+
+
+class Processing
+class Matrice
+class CLI
+
+OperationManagement o-- Matrice
+OperationManagement -- CLI
+OperationManagement -- Processing
+
+@enduml

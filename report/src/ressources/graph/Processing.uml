@@ -1,0 +1,35 @@
+@startuml
+
+class Processing {
+    +string applySearch(string, Matrice, int[])
+}
+
+class SearchSequence {
+    +hashmap<int,vector<int> > doSearch(Matrice, int[])
+    +string stringifyResult(hashmap< int, vector<int> >)
+}
+
+class SearchUnordered {
+    +hashmap<int,vector<int> > doSearch(Matrice, int[])
+    +string stringifyResult(hashmap< int, vector<int> >)
+}
+
+class SearchClosestMatch {
+    +hashmap<int,vector<int> > doSearch(Matrice, int[])
+    +string stringifyResult(hashmap< int, vector<int> >)
+}
+
+interface Search {
+    +hashmap<int,vector<int> > doSearch(Matrice, int[])
+    +string stringifyResult(hashmap< int, vector<int> >)
+}
+
+Processing "1" --> "1" SearchSequence
+Processing "1" --> "1" SearchUnordered
+Processing "1" --> "1" SearchClosestMatch
+
+Search <|-- SearchSequence
+Search <|-- SearchUnordered
+Search <|-- SearchClosestMatch
+
+@enduml

@@ -1,10 +1,33 @@
 % !TEX encoding = UTF-8 Unicode
-\documentclass[12pt]{report}
+\documentclass[12pt,twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel, varioref}
+
+\usepackage{afterpage}
+\usepackage{calc}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{helvet}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{lscape}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage[urlcolor=blue, linkcolor=black,linktoc=all, colorlinks=true]{hyperref}
+\usepackage[left=2cm, right=2cm, top=2.1cm, bottom=2.5cm]{geometry}
+\usepackage[final]{pdfpages}
 
 \let\iint\undefined
 \let\iiint\undefined
 
 \begin{document}
+\title{2D matrice pattern search}
+\date{March 2018}
+\maketitle
 
 \clearpage
 
@@ -15,7 +38,7 @@
 \tableofcontents{}
 
 %En cas d'ajout de .tex, copiez-collez cette ligne en modifiant le nom de fichier
-%\input{tex/ExampleTex.tex}
+\input{tex/planning.tex}
 
 % Liste des figures
 \listoffigures

@@ -1,0 +1,14 @@
+@startuml
+
+class FileProcessor {
+    int[][] readFile(string)
+    MatriceObject processMatrice(int[][])
+    string decryptTextFile(string)
+}
+class MatriceObject
+class CLI
+
+FileProcessor o-- MatriceObject
+FileProcessor <-- CLI
+
+@enduml

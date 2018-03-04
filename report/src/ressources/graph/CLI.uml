@@ -2,16 +2,17 @@
 
 package CommandLineInterface {
     class CLI {
-        string filePath
-        MatriceObject matriceObject
-        void setMatrice(MatriceObject)
-        void processArgs()
+        -string filePath
+        -Matrice matriceObject
+        -void setMatrice(Matrice)
+        -void processArgs()
+        +
     }
 
     class EntryProcessing {
-        pair<string, int[]> processEntry(string)
-        void applyOperation(string, MatriceObject)
-        void printResult(hashmap<string, vector<int>>)
+        +pair<string, int[]> processEntry(string)
+        +void applyOperation(string, MatriceObject)
+        +void printResult(hashmap<string, vector<int>>)
     }
     CLI "1" --> "1" EntryProcessing
 }

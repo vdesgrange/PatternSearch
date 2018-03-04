@@ -1,0 +1,19 @@
+@startuml
+
+class Matrice {
+    -Object matrice
+
+    +Object getMatrice()
+    -void setMatrice(Object)
+    +Object process2DArray(int[][])
+}
+
+class FileProcessor
+class Processing
+class OperationManagement
+
+Matrice --o OperationManagement
+Matrice --o FileProcessor
+Matrice --o Processing
+
+@enduml
