@@ -1,0 +1,35 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass[12pt]{report}
+
+\let\iint\undefined
+\let\iiint\undefined
+
+\begin{document}
+
+\clearpage
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+\setcounter{page}{1}
+
+\tableofcontents{}
+
+%En cas d'ajout de .tex, copiez-collez cette ligne en modifiant le nom de fichier
+%\input{tex/ExampleTex.tex}
+
+% Liste des figures
+\listoffigures
+
+% Bibliographie
+
+\nocite{*}
+%\bibliography{tex/biblio}{}
+%\bibliographystyle{plain}
+%\printbibliography
+
+% Annexes
+\clearpage
+\appendix
+\input{tex/annexes.tex}
+
+\end{document}

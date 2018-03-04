@@ -1,0 +1,28 @@
+@startuml
+
+package CommandLineInterface {
+    class CLI {
+        string filePath
+        MatriceObject matriceObject
+        void setMatrice(MatriceObject)
+        void processArgs()
+    }
+
+    class EntryProcessing {
+        pair<string, int[]> processEntry(string)
+        void applyOperation(string, MatriceObject)
+        void printResult(hashmap<string, vector<int>>)
+    }
+    CLI "1" --> "1" EntryProcessing
+}
+
+
+class FileProcessor
+class MatriceObject
+class OperationManagement
+
+CLI -- OperationManagement
+CLI -- FileProcessor
+CLI o-- MatriceObject
+
+@enduml
