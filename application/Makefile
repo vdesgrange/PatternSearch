@@ -7,12 +7,12 @@ SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -std=c++1z -g -Wall
-LIB := -L lib/ $(shell pkg-config --libs opencv) -L /usr/local/opt/openssl/lib/ -L /usr/local/opt/botan/lib/botan-2/
-INC := -I include/ $(shell pkg-config --cflags opencv) -I /usr/local/opt/openssl/include/ -I /usr/local/opt/botan/include/botan-2/
+LIB := -L lib/ -L /usr/local/opt/botan/lib/ $(shell pkg-config --libs opencv)
+INC := -I include/ $(shell pkg-config --cflags opencv) -I /usr/local/opt/botan/include/botan-2/
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
-	@echo " $(CC) $^ -L LIB -o $(TARGET)"; $(CC) $^ $(LIB) $(INC) -o $(TARGET)
+	@echo " $(CC) $^ -L $(LIB) -o $(TARGET)"; $(CC) $^ $(LIB) $(INC) -o $(TARGET)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(shell dirname $@)
