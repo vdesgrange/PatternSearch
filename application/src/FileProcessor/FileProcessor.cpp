@@ -1,44 +1,55 @@
-#include <stdio.h>
-#include <iostream>
-#include <string>
-#include <opencv2/core/mat.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui/highgui.hpp>
 #include "../../include/FileProcessor.hpp"
-#include "../../include/Matrice.hpp"
-
-using namespace cv;
-using namespace std;
 
 Matrice * FileProcessor::processMatrice(int** array2D) {
     return new Matrice();
 }
 
-string FileProcessor::decryptFileContent(string filePath) {
+string FileProcessor::decryptFileContent(ifstream file, string password) {
     return "";
 }
 
-int** FileProcessor::readFile(string filePath) {
-    Mat source = imread(filePath);
-    int ** array2D = nullptr;
+Mat FileProcessor::readFile(string filePath, string password) {
+    /*ifstream cipherFile;
+    cipherFile.open(filePath);
+
+    if (cipherFile.is_open()) {
+        FileProcessor::decryptFileContent(cipherFile, password);
+    }*/
+    return FileProcessor::readFile(filePath);
+}
+
+Mat FileProcessor::readFile(string filePath) {
+    Mat source = imread(filePath, CV_LOAD_IMAGE_GRAYSCALE);
 
     if (source.empty() || !source.data) {
-        printf("Error loading file : %s", filePath.c_str());
-        return nullptr;
+        printf("Error file not found : %s", filePath.c_str());
+        return Mat(0,0,CV_8UC(0));
     }
 
+    FileProcessor::toString(source);
+
+    return source;
+}
+
+void FileProcessor::toString(Mat source) {
+    int item = (int)source.at<uchar>(0,0);
+    printf("Number of elements %lu \n", source.total());
+    printf("Channels %d \n", source.channels());
+    printf("Type %d \n", source.type());
+    printf("Dimension %d \n", source.dims);
+    //cout << "Mat : \n " <<  source << endl;
+    cout << "Item(0,0) : " <<  item << endl;
+
+    printf("Display picture in a window. \n");
     namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
     imshow( "Display window", source);
     waitKey(0);
-
-    return array2D;
 }
 
 int main(int argc, const char ** argv) {
-    string filePath = "../../files/lenaGrayscale.png";
-    if (argc != 2) {
+    string filePath = "";
+    if (argc == 2) {
         filePath = argv[1];
-        cout << "Type : " << filePath << endl;
     }
 
     FileProcessor::readFile(filePath);
