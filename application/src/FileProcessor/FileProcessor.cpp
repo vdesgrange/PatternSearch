@@ -9,13 +9,12 @@ string FileProcessor::decryptFileContent(ifstream file, string password) {
 }
 
 Mat FileProcessor::readFile(string filePath, string password) {
-    /*ifstream cipherFile;
-    cipherFile.open(filePath);
-
-    if (cipherFile.is_open()) {
-        FileProcessor::decryptFileContent(cipherFile, password);
-    }*/
-    return FileProcessor::readFile(filePath);
+    cout << "Encrypt file" << endl;
+    Crypting::encryptFileContent(filePath, password);
+    cout << "Decrypt file" << endl;
+    Crypting::decryptFileContent(filePath, password);
+    //return FileProcessor::readFile(filePath);
+    return Mat(0,0,CV_8UC(0));
 }
 
 Mat FileProcessor::readFile(string filePath) {
@@ -48,10 +47,17 @@ void FileProcessor::toString(Mat source) {
 
 int main(int argc, const char ** argv) {
     string filePath = "";
+    string password = "";
+
+    cout << "Getting arguments : " << argc - 1 << endl;
     if (argc == 2) {
         filePath = argv[1];
+        FileProcessor::readFile(filePath);
+    } else if (argc == 3) {
+        filePath = argv[1];
+        password = argv[2];
+        FileProcessor::readFile(filePath, password);
     }
 
-    FileProcessor::readFile(filePath);
     return 0;
 }

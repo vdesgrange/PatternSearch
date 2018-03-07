@@ -2,6 +2,8 @@
 #define Crypting_hpp
 
 #include <iostream>
+#include <stdio.h>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -15,7 +17,13 @@
 #include <botan/data_snk.h>
 #include <botan/cipher_mode.h>
 #include <botan/key_filt.h>
+#include <botan/b64_filt.h>
 #include <botan/init.h>
+
+#include <openssl/aes.h>
+#include <openssl/conf.h>
+#include <openssl/evp.h>
+#include <openssl/err.h>
 
 using namespace Botan;
 using namespace std;
