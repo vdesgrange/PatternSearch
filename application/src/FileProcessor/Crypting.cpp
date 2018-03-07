@@ -1,24 +1,30 @@
 #include "../../include/Crypting.hpp"
 
 void Crypting::decryptFileContent(string filePath, string password) {
+
     string inFilePath = "./files/out.enc";
+    //string saltFilePath = "./files/salt";
     string outFilePath = "./files/out";
     ifstream in(inFilePath.c_str(), ios::binary);
     ofstream out(outFilePath.c_str(), ios::binary);
+    istream_iterator<uint8_t> input_iterator_start(in);
 
     AutoSeeded_RNG rng;
     PBKDF* pbkdf = get_pbkdf("PBKDF2(SHA-256)");
+    secure_vector<uint8_t> salt;
+    char * saltC =  new char[16];
+    in.seekg(in.beg);
+    in.read(saltC, 16);
+    copy(saltC, saltC + 16, back_inserter(salt));
 
-    secure_vector<uint8_t> salt = rng.random_vec(8);
-    //rng.randomize(&salt[0], salt.size());
+    secure_vector<uint8_t> key_and_IV = pbkdf->derive_key(48, password, &salt[0], salt.size(), 10000).bits_of();
+    SymmetricKey key(key_and_IV.data(), 32);
+    OctetString iv(key_and_IV.data() +32, 16);
+    //cout << "Decryption key" << key.as_string() << endl;
+    //cout << "Decryption iv" << iv.as_string() << endl;
 
+    Pipe pipe(get_cipher("AES-256/CBC", key, DECRYPTION), new DataSink_Stream(out));
 
-    //OctetString key = pbkdf->derive_key(32, password, &salt[0], salt.size(), 10000).bits_of();
-    secure_vector<uint8_t> key_and_IV = pbkdf->derive_key(32, password, &salt[0], salt.size(), 10000).bits_of();
-    OctetString key(key_and_IV.data(), 32);
-    //OctetString iv(key_and_IV.data() +32, 16);
-
-    Pipe pipe(get_cipher("AES-256/CBC/PKCS7", key, DECRYPTION), new Base64_Decoder, new DataSink_Stream(out));
     pipe.start_msg();
     in >> pipe;
     pipe.end_msg();
@@ -31,59 +37,42 @@ void Crypting::decryptFileContent(string filePath, string password) {
 }
 
 void Crypting::encryptFileContent(string filePath, string password) {
-    AutoSeeded_RNG rng;
 
     string outFilePath = "./files/out.enc";
+
     ifstream in(filePath.c_str(), ios::binary);
-    ofstream out(outFilePath.c_str(), ios::binary);
+    ofstream out(outFilePath.c_str(), ios::binary); // ios::binary || ios::app
+    ostream_iterator<uint8_t> output_iterator(out);
+    /*
+    ofstream saltOut(saltFilePath.c_str(), ios::binary);
+    ostream_iterator<uint8_t> output_iterator(saltOut);
+    saltOut.flush();
+    saltOut.close();
+    */
 
+    AutoSeeded_RNG rng;
     PBKDF* pbkdf = get_pbkdf("PBKDF2(SHA-256)");
-    secure_vector<uint8_t> salt = rng.random_vec(8);
+    secure_vector<uint8_t> salt = rng.random_vec(16);
 
-    secure_vector<uint8_t> key_and_IV = pbkdf->derive_key(32, password, &salt[0], salt.size(), 10000).bits_of();
-    OctetString key(key_and_IV.data(), 32);
+    copy(salt.begin(), salt.end(), output_iterator);
+    out.flush();
 
-    Pipe pipe(get_cipher("AES-256/CBC/PKCS7", key, ENCRYPTION), new Base64_Encoder, new DataSink_Stream(out));
-    //Pipe pipe(get_cipher("AES-256/CBC/PKCS7", key, ENCRYPTION), new DataSink_Stream(out));
+    secure_vector<uint8_t> key_and_IV = pbkdf->derive_key(48, password, &salt[0], salt.size(), 10000).bits_of();
+    SymmetricKey key(key_and_IV.data(), 32);
+    OctetString iv(key_and_IV.data() +32, 16);
+
+    //cout << "Encryption key" << key.as_string() << endl;
+    //cout << "Encryption iv" << iv.as_string() << endl;
+
+    Pipe pipe(get_cipher("AES-256/CBC", key, ENCRYPTION), new DataSink_Stream(out));
 
     pipe.start_msg();
     in >> pipe;
     pipe.end_msg();
 
-    cout << "Sortie : \n" << pipe << endl;
-
     out.flush();
     out.close();
     in.close();
-
-    return;
-    /*ifstream infile (filePath, ios::binary); //, ios::binary
-    string content( (istreambuf_iterator<char>(infile) ),
-                       (istreambuf_iterator<char>() ) );*/
-    /*ifstream inFile;
-    inFile.open(filePath);
-    stringstream strStream;
-    strStream << inFile.rdbuf();
-    string str = strStream.str();
-
-    int len = strlen(str.c_str());
-    unsigned char encryptedbuffer[128];
-    const unsigned char *oneKey = (const unsigned char*)password.c_str();
-    AES_KEY key;
-    AES_set_encrypt_key(oneKey,128,&key);
-
-    ofstream outFile;
-    outFile.open("./files/out.enc");
-
-    for(int i = 0; i <= len; i += 16) {
-        AES_encrypt((const unsigned char *) str.c_str() + i, encryptedbuffer, &key);
-        for (int k = 0; k <= 16; k++) {
-            outFile << encryptedbuffer[k];
-        }
-    }
-
-    outFile.close();
-    inFile.close();*/
 
     return;
 }

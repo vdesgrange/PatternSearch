@@ -20,11 +20,6 @@
 #include <botan/b64_filt.h>
 #include <botan/init.h>
 
-#include <openssl/aes.h>
-#include <openssl/conf.h>
-#include <openssl/evp.h>
-#include <openssl/err.h>
-
 using namespace Botan;
 using namespace std;
 
