@@ -29,6 +29,7 @@ class FileProcessor {
     private:
         static string decryptFile(string, string);
         static vvi processLine(string);
+        static Matrice* processMatrice(vvvi);
 };
 
 #endif

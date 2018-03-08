@@ -4,7 +4,7 @@ PNG=$(UML:.uml=.png)
 all: $(PNG) texDoc mvdoc pseudoclean
 
 %.png: %.uml
-	java -jar ./plantuml.jar $<
+	java -jar plantuml.jar $<
 
 texDoc:
 	cd src; /Library/TeX/texbin/pdflatex rapport.tex;

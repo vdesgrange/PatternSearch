@@ -158,6 +158,16 @@ void FileProcessor::toString(vvvi source) {
 }
 
 /**
+ * \brief Get complex matrice structure from file content data.
+ * Call matrice complex structure constructor to process plain text file content data.
+ * \param {vvvi} data - simple matrice data structure
+ * \return {Matrice} complexe Matrice data structure
+ */
+Matrice* processMatrice(vvvi data) {
+    return new Matrice();
+}
+
+/**
  * \brief main method. Temporary.
  */
 int main(int argc, const char ** argv) {

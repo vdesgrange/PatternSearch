@@ -1,14 +1,26 @@
 @startuml
 
 class FileProcessor {
-    int[][] readFile(string)
-    MatriceObject processMatrice(int[][])
-    string decryptTextFile(string)
+    +{static} string encryptFile(string, string)
+    +{static} vvvi readFile(string, string)
+    +{static} vvvi readFile(string)
+    +{static} void toString(vvvi)
+    +{static} string fileNameGenerator(const int, string)
+    -{static} string decryptFile(string, string)
+    -{static} vvi processLine(string)
+    -{static} Matrice* processMatrice(vvvi)
 }
-class MatriceObject
+
+class Crypting {
+    +{static} string encryptFileContent(string, string)
+    +{static} string decryptFileContent(string, string)
+}
+
+class Matrice
 class CLI
 
-FileProcessor o-- MatriceObject
-FileProcessor <-- CLI
+FileProcessor "1" -- "1" Crypting
+FileProcessor "1" o-- "1" Matrice
+FileProcessor "1" <-- "1" CLI
 
 @enduml
