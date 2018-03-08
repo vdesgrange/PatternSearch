@@ -1,5 +1,13 @@
 #include "../../include/FileProcessor.hpp"
 
+/**
+ * \brief random filename generator
+ * Get length and extension of a filename to create, and
+ * generate a random string.
+ * \param {const int} len - length of filename
+ * \param {string} ext - filename extension
+ * \return {string} random file name
+ */
 string FileProcessor::fileNameGenerator(const int len, string ext = "") {
     string randomizeName = "";
     static const char alphanum[] =
@@ -16,6 +24,13 @@ string FileProcessor::fileNameGenerator(const int len, string ext = "") {
     return randomizeName;
 }
 
+/**
+ * \brief Extract matrix information of a row
+ * Receive a string corresponding to a matrix row from the plain text file.
+ * Extract matrix's elements (composed of 1 or + dimensions).
+ * \param {string} line - matrix row
+ * \return {vector<vector<int>>} - A vector X dimensional matrix items.
+ */
 vvi FileProcessor::processLine(string line) {
     regex itemRe("-?[0-9]+");
     smatch itemMatch;
@@ -43,16 +58,39 @@ vvi FileProcessor::processLine(string line) {
     return row;
 }
 
+/**
+ * \brief Decrypte file encrypted in AES-256/CBC method.
+ * Receive file path of a cipher file (encrypted by encryptFile method),
+ * and use password to create a decrypted file.
+ * \param {string} filePath - cipher file path.
+ * \param {string} password - password used for encryption.
+ * \return {string} path of decrypted file.
+ */
 string FileProcessor::decryptFile(string filePath, string password) {
     string decodedFilePath = Crypting::decryptFileContent(filePath, password);
     return decodedFilePath;
 }
 
+/**
+ * \brief Encrypt file in AES-256-CBC method.
+ * Receive plain text file path and use password to create a cipher file.
+ * \param {string} filePath - plain text file path.
+ * \param {string} password - password used for encryption.
+ * \return {string} path of cipher file.
+ */
 string FileProcessor::encryptFile(string filePath, string password) {
     string cipherFilePath = Crypting::encryptFileContent(filePath, password);
     return cipherFilePath;
 }
 
+/**
+ * \brief Read cipher matrix file and store it into simple data structure.
+ * Receive cipher matrix file, call method to decrypt file and method to
+ * read file and store matrix content into simple data structure.
+ * \param {string} filePath - plain text file path.
+ * \param {string} password - password used for encryption.
+ * \return {vvvi} matrice - rows of cols of X dimensional int elements.
+ */
 vvvi FileProcessor::readFile(string filePath, string password) {
     vvvi fileContent;
     try {
@@ -68,6 +106,13 @@ vvvi FileProcessor::readFile(string filePath, string password) {
     return fileContent;
 }
 
+/**
+ * \brief Read plain text matrix file and store it into simple data structure.
+ * Receive plain text matrix file, call method to
+ * read file and store matrix content into simple data structure.
+ * \param {string} filePath - plain text file path.
+ * \rturn {vvvi} matrice - rows of cols of X dimensional int elements.
+ */
 vvvi FileProcessor::readFile(string filePath) {
     vvvi fileContent;
     ifstream inputFile(filePath);
@@ -91,6 +136,11 @@ vvvi FileProcessor::readFile(string filePath) {
     return fileContent;
 }
 
+/**
+ * \brief toString method
+ * Display matrice content.
+ * \param {vvvi} source - matrice simple data structure (rows of cols of X dimensional int element).
+ */
 void FileProcessor::toString(vvvi source) {
     cout << "Number of elements : " <<  (source.size() * source.front().size()) << endl;
     cout << "Matrice" << endl;
@@ -107,6 +157,9 @@ void FileProcessor::toString(vvvi source) {
     return;
 }
 
+/**
+ * \brief main method. Temporary.
+ */
 int main(int argc, const char ** argv) {
     string filePath = "";
     string password = "";
