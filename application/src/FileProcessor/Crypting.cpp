@@ -1,17 +1,18 @@
 #include "../../include/Crypting.hpp"
+#include "../../include/FileProcessor.hpp"
 
-void Crypting::decryptFileContent(string filePath, string password) {
+string Crypting::decryptFileContent(string inFilePath, string password) {
 
-    string inFilePath = "./files/out.enc";
-    //string saltFilePath = "./files/salt";
-    string outFilePath = "./files/out";
+    cout << "File decryption" << endl;
+
+    string decodedFilePath = "./files/" + FileProcessor::fileNameGenerator(10, "");
+
     ifstream in(inFilePath.c_str(), ios::binary);
-    ofstream out(outFilePath.c_str(), ios::binary);
-    istream_iterator<uint8_t> input_iterator_start(in);
+    ofstream out(decodedFilePath.c_str(), ios::binary);
 
-    AutoSeeded_RNG rng;
     PBKDF* pbkdf = get_pbkdf("PBKDF2(SHA-256)");
     secure_vector<uint8_t> salt;
+
     char * saltC =  new char[16];
     in.seekg(in.beg);
     in.read(saltC, 16);
@@ -33,22 +34,18 @@ void Crypting::decryptFileContent(string filePath, string password) {
     out.close();
     in.close();
 
-    return;
+    cout << decodedFilePath << endl;
+
+    return decodedFilePath;
 }
 
-void Crypting::encryptFileContent(string filePath, string password) {
+string Crypting::encryptFileContent(string filePath, string password) {
 
-    string outFilePath = "./files/out.enc";
+    string encodedFilePath = "./files/" + FileProcessor::fileNameGenerator(10, ".enc");
 
     ifstream in(filePath.c_str(), ios::binary);
-    ofstream out(outFilePath.c_str(), ios::binary); // ios::binary || ios::app
+    ofstream out(encodedFilePath.c_str(), ios::binary); // ios::binary || ios::app
     ostream_iterator<uint8_t> output_iterator(out);
-    /*
-    ofstream saltOut(saltFilePath.c_str(), ios::binary);
-    ostream_iterator<uint8_t> output_iterator(saltOut);
-    saltOut.flush();
-    saltOut.close();
-    */
 
     AutoSeeded_RNG rng;
     PBKDF* pbkdf = get_pbkdf("PBKDF2(SHA-256)");
@@ -61,9 +58,6 @@ void Crypting::encryptFileContent(string filePath, string password) {
     SymmetricKey key(key_and_IV.data(), 32);
     OctetString iv(key_and_IV.data() +32, 16);
 
-    //cout << "Encryption key" << key.as_string() << endl;
-    //cout << "Encryption iv" << iv.as_string() << endl;
-
     Pipe pipe(get_cipher("AES-256/CBC", key, ENCRYPTION), new DataSink_Stream(out));
 
     pipe.start_msg();
@@ -74,5 +68,7 @@ void Crypting::encryptFileContent(string filePath, string password) {
     out.close();
     in.close();
 
-    return;
+    cout << encodedFilePath << endl;
+
+    return encodedFilePath;
 }

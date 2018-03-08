@@ -1,30 +1,34 @@
 #ifndef FileProcessor_hpp
 #define FileProcessor_hpp
 
-#include <stdio.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <opencv2/core/mat.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include <cstdlib>
+#include <stdio.h>
+#include <regex>
 
 #include "Crypting.hpp"
 #include "Matrice.hpp"
 
-using namespace cv;
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+typedef vector<vvi> vvvi;
+
 using namespace std;
 
 class FileProcessor {
     public:
-        static Mat readFile(string, string);
-        static Mat readFile(string);
-        static void toString(Mat);
+        static string encryptFile(string, string);
+        static vvvi readFile(string, string);
+        static vvvi readFile(string);
+        static void toString(vvvi);
+        static string fileNameGenerator(const int, string);
 
     private:
-        Matrice * processMatrice(int** );
-        static string decryptFileContent(ifstream, string);
+        static string decryptFile(string, string);
+        static vvi processLine(string);
 };
 
 #endif
