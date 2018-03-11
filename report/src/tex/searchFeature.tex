@@ -1,6 +1,55 @@
 % !TEX encoding = UTF-8 Unicode
-\chapter{Search features}
+\chapter{Search and Matrix storage}
 
-\section{Search algorithm}
+\par
+Search features have to follow several constraints requirements :
+\begin{itemize}
+	\item Matrice size can be consider of important size, but should fit into RAM at maximum.
+	\item Pattern search should be perform on both rows and cols of the matrix.
+	\item Search algorithm complexity should not be worse than O(n) with n number of items into the matrix.
+	\item No constraints on memory used (max RAM).
+\end{itemize}
 
-\section{Data structure - generalised suffix tree}
+\section{Search features}
+
+\subsection{Matrix items}
+Matrix contain only integers, however this value should not be a limit, and we should consider the application of common string search pattern algorithms.\\
+The fact that a string search pattern algorithms will mostly look at characteres is not a limit, we consider that such algorithm can be easily modified to handle integer instead of string/characters.\\
+
+A difficulty to handle would be the case of matrix' items of several dimensions (RGBA channel of an image for instance).
+\begin{itemize}
+	\item A solution would be to simply complexify the comparaison used by search algorithm to work with multiples values. However since the dimensions of matrix' items aren't fixed, this would add complexity to the algorithm. 
+	\item An other solution would be to process these values through a bijective function, to get a unique values associated to X previous items. This would avoid to complexify the comparaison part of each algorithms.
+\end{itemize}
+
+
+\subsection{Search algorithms}
+
+\par
+Last search algorithm complexity requirements impose an important constraints which prevent the usage of pre-process pattern search algorithm. Following algorithms have been studied :
+\begin{description}
+	\item[Rabin-Karp] : Pre-processing text and pattern with hash function in order to compute associated hash value. Use hash value to reduce comparaison of pattern with string only when hash correspond. In average complexity will be around O(n+m), but worst time performance case will be O(nm) (n as string length, m pattern length). 
+	\item[Knuth Morris Pratt] : Worst time performance case O(kn) (n as string length, k string search length).
+	\item[Finite Automata] : Worst time performance case O(n).
+	\item[Boyer Moore] : Worst time performance case O(n + m).
+\end{description}
+
+\subsection{Data structure - Generalised suffix tree}
+
+\par
+There is no restriction on the preprocessing of the matrice data. We can consider look at text pre-processing search algorithms.\\
+Since several pattern search operations much be perform on a static matrix, suffix tree is a structure which could validate the different constraints of the search features.\\
+\begin{itemize}
+	\item Constraints are only on search features, so we can consider pre-processing of the text on bigger time performance.
+	\item Suffix tree will allow us earch of pattern in O(m) time with m length of the pattern.
+	\item Pattern search with mistakes are allowed.
+\end{itemize}
+
+\par
+In order to handle rows and cols from our matrix, we will have to construct a suffix tree or array tree.
+\begin{description}
+	\item[Generalised suffix tree] : Ukkonen algorithms would allow us to construct a generalised suffix tree in O(n).
+	In our case this data structure would suits perfectly since we have to handle pattern search for a list of rows/cols sequences.
+	\item[Simple suffix tree] : An other solution is to concatenate sequences from rows and cols into a single string sequence (with unique terminator to each string). And build a simple suffix tree based on this single string. Construction of the data structure will be more complexe in time, and use more space; however it will be a more simple
+	way to create our data structure, and should not complexify search pattern algorithms.
+\end{description}
