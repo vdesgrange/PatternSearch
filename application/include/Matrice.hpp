@@ -1,8 +1,8 @@
 #ifndef Matrice_hpp
 #define Matrice_hpp
 
-#include <stdio.h>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -10,6 +10,8 @@ class Matrice {
     public:
         Matrice();
         void toString();
+
+    private:
 };
 
 #endif
