@@ -170,7 +170,7 @@ Matrice* processMatrice(vvvi data) {
 /**
  * \brief main method. Temporary.
  */
-int main(int argc, const char ** argv) {
+/*int main(int argc, const char ** argv) {
     string filePath = "";
     string password = "";
     string encFilePath = "";
@@ -187,4 +187,4 @@ int main(int argc, const char ** argv) {
     }
 
     return 0;
-}
+}*/

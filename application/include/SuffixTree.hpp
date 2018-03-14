@@ -33,11 +33,16 @@ class SuffixTree {
     int *rootEnd;
     int *splitEnd;
     int size;
+    string sentence;
 
     public:
         SuffixTree();
+        SuffixTree(string);
         void setActivePoint(Node*, int, int);
-        ActivePoint getActivePoint();
+        void setSentence(string);
+        Node* getRoot();
+        Node* buildSuffixTree();
+        void printSuffixTree(Node*, int);
 
     private:
         Node* createNewNode(int, int*);
@@ -45,7 +50,6 @@ class SuffixTree {
         bool walkDown(Node*);
         void extendSuffixTree(int, string);
         void setSuffixIndex(Node*, int);
-        Node* buildSuffixTree(string);
 };
 
 #endif
