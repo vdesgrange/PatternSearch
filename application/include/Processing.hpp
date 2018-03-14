@@ -20,6 +20,7 @@ enum Operation {
 
 class Processing {
     public:
+        Processing();
         static string applySearch(string, Matrice, int[]);
 };
 

@@ -26,9 +26,6 @@ SuffixTree::SuffixTree (vector<MatItem> items) {
 
 SuffixTree::~SuffixTree() {
     freeSuffixTreeByPostOrder(root);
-    delete lastNewNode;
-    delete rootEnd;
-    delete splitEnd;
 }
 
 /**
@@ -126,6 +123,18 @@ void SuffixTree::extendSuffixTree(int pos, vector<MatItem> sentence) {
         if (activePoint.activeLength == 0)
             activePoint.activeEdge = pos;
 
+        cout << "lol12" << endl;
+        auto a = activePoint.activeEdge;
+        cout << "lol13" << endl;
+        auto b = sentence[activePoint.activeEdge];
+        cout << "lol14" << endl;
+        auto c = activePoint.activeNode;
+        cout << "lol15" << c << endl;
+        auto p = activePoint.activeNode->children;
+        cout << "lol16" << endl;
+        auto e = activePoint.activeNode->children[sentence[activePoint.activeEdge]];
+        cout << "lol17" << endl;
+
         // If no child for active caractere, create a child.
         if (activePoint.activeNode->children[sentence[activePoint.activeEdge]] == nullptr) {
             activePoint.activeNode->children[sentence[activePoint.activeEdge]] = createNewNode(pos, &end);
@@ -181,6 +190,8 @@ void SuffixTree::extendSuffixTree(int pos, vector<MatItem> sentence) {
         } else if ( activePoint.activeNode != root ) {
             activePoint.activeNode = activePoint.activeNode->suffixLink;
         }
+        cout << "lol10" << endl;
+        cout << remainder << endl;
     }
 }
 
@@ -291,7 +302,9 @@ Node* SuffixTree::buildSuffixTree() {
     root = createNewNode(-1, rootEnd);
     SuffixTree::setActivePoint(root, 0, 0);
     for (int i(0); i < sentence.size(); i++) {
+        cout << i << endl;
         extendSuffixTree(i, sentence);
+        cout << i << endl;
     }
     int labelHeight = 0;
     setSuffixIndex(root, labelHeight);

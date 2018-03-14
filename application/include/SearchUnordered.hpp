@@ -13,6 +13,7 @@ using namespace std;
 
 class SearchUnordered : public Search {
     public:
+        SearchUnordered();
         string doSearch(Matrice, int[]);
     private:
         map<int, vector<int> > searchOperation(Matrice, int[]);

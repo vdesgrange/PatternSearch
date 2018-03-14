@@ -1,5 +1,8 @@
 #include "../../include/SearchUnordered.hpp"
 
+SearchUnordered::SearchUnordered() {
+}
+
 string SearchUnordered::doSearch(Matrice mat, int sequence[]) {
     map<int, vector<int> > result = searchOperation(mat, sequence);
     return stringifyResult(result);

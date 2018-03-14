@@ -13,10 +13,12 @@ using namespace std;
 
 class SearchSequence : public Search {
     public:
+        SearchSequence();
         string doSearch(Matrice, int[]);
     private:
         map<int, vector<int> > searchOperation(Matrice, int[]);
         string stringifyResult(map<int, vector<int> >);
+        int matriceTraversal(Node*, int[], int);
 };
 
 #endif

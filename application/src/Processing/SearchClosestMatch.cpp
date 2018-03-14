@@ -1,5 +1,8 @@
 #include "../../include/SearchClosestMatch.hpp"
 
+SearchClosestMatch::SearchClosestMatch() {
+}
+
 string SearchClosestMatch::doSearch(Matrice mat, int sequence[]) {
     map<int, vector<int> > result = searchOperation(mat, sequence);
     return stringifyResult(result);
@@ -7,6 +10,7 @@ string SearchClosestMatch::doSearch(Matrice mat, int sequence[]) {
 
 map<int, vector<int> > SearchClosestMatch::searchOperation(Matrice mat, int sequence[]) {
     map<int, vector<int> > result;
+    Node *root = mat.getRoot();
     return result;
 }
 

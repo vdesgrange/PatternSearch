@@ -13,6 +13,7 @@ using namespace std;
 
 class SearchClosestMatch : public Search {
     public:
+        SearchClosestMatch();
         string doSearch(Matrice, int[]);
     private:
         map<int, vector<int> > searchOperation(Matrice, int[]);
