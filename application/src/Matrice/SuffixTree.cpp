@@ -1,7 +1,7 @@
 #include "../../include/SuffixTree.hpp"
 
 SuffixTree::SuffixTree () {
-    sentence = "";
+    sentence = vector<MatItem>(0);
     root = nullptr;
     lastNewNode = nullptr;
     ActivePoint activePoint;
@@ -12,8 +12,8 @@ SuffixTree::SuffixTree () {
     size = 0;
 }
 
-SuffixTree::SuffixTree (string text) {
-    sentence = text;
+SuffixTree::SuffixTree (vector<MatItem> items) {
+    sentence = items;
     root = nullptr;
     lastNewNode = nullptr;
     ActivePoint activePoint;
@@ -22,6 +22,13 @@ SuffixTree::SuffixTree (string text) {
     rootEnd = nullptr;
     splitEnd = nullptr;
     size = 0;
+}
+
+SuffixTree::~SuffixTree() {
+    freeSuffixTreeByPostOrder(root);
+    delete lastNewNode;
+    delete rootEnd;
+    delete splitEnd;
 }
 
 /**
@@ -37,8 +44,8 @@ Node* SuffixTree::getRoot() {
  * @brief sentence setter
  * @param {string} text - string used to set sentence
  */
-void SuffixTree::setSentence(string text) {
-    this->sentence = text;
+void SuffixTree::setSentence(vector<MatItem> items) {
+    this->sentence = items;
 }
 
 /**
@@ -63,9 +70,6 @@ void SuffixTree::setActivePoint(Node *node, int edge, int length) {
  */
 Node* SuffixTree::createNewNode(int start, int *end) {
     Node *node = new Node();
-    for (int i(0); i < MAXCHARS; i++) {
-        node->children[i] = nullptr;
-    }
     node->suffixLink = nullptr;
     node->start = start;
     node->end = end;
@@ -111,7 +115,7 @@ bool SuffixTree::walkDown(Node *currNode) {
  * @param {int} pos - current position in the string processed
  * @param {string} sentence - string processed
  */
-void SuffixTree::extendSuffixTree(int pos, string sentence) {
+void SuffixTree::extendSuffixTree(int pos, vector<MatItem> sentence) {
     end = pos; // End leaf index
     remainder++; // Need to insert + 1 suffix.
     lastNewNode = nullptr;
@@ -136,7 +140,7 @@ void SuffixTree::extendSuffixTree(int pos, string sentence) {
             }
 
             // String caractere currently processed is already into the tree.
-            if (sentence[next->start + activePoint.activeLength] == sentence[pos]) {
+            if (sentence[next->start + activePoint.activeLength].v == sentence[pos].v) {
                 if (lastNewNode != nullptr && activePoint.activeNode != root) {
                     lastNewNode->suffixLink = activePoint.activeNode;
                     lastNewNode = nullptr;
@@ -192,14 +196,22 @@ void SuffixTree::setSuffixIndex(Node *node, int labelHeight) {
     }
 
     int leaf = 1;
-    for (int i(0); i < MAXCHARS; i++) {
-        if (node->children[i] != nullptr) {
+    //for (int i(0); i < node->children.size(); i++) {
+    map<MatItem, SuffixTreeNode*>::iterator it;
+    for (it = node->children.begin(); it != node->children.end(); it++) {
+        if (it->second != nullptr) {
             leaf = 0;
-            setSuffixIndex(node->children[i], labelHeight + getEdgeLength(node->children[i]));
+            setSuffixIndex(it->second, labelHeight + getEdgeLength(it->second));
         }
     }
 
     if (leaf == 1) {
+        for (int i(node->start); i <= *(node->end); i++) {
+            if (sentence[i].isSeparator) {
+                node->end = new int();
+                *(node->end) = i;
+            }
+        }
         node->suffixIndex = size - labelHeight;
     }
 }
@@ -212,13 +224,14 @@ void SuffixTree::setSuffixIndex(Node *node, int labelHeight) {
  */
 void SuffixTree::printSuffixTree(Node *node, int depth) {
     // Local printing function (closure)
-    auto print = [] (int start, int end, string sentence) {
+    auto print = [] (int start, int end, vector<MatItem> sentence) {
         cout << "└";
         for (int i(start); i <= end; i++ )
-            cout << sentence[i];
+            cout << sentence[i].v;
         cout << "-ø";
     };
 
+    // Space to visualise graph branch
     for (int i(0); i < depth; i++)
         cout << " ";
 
@@ -232,14 +245,15 @@ void SuffixTree::printSuffixTree(Node *node, int depth) {
         cout << "ø\n";
 
     int leaf = 1;
-    for (int j(0); j < MAXCHARS; j++) {
-        if (node->children[j] != nullptr) {
+    map<MatItem, SuffixTreeNode*>::iterator it;
+    for (it = node->children.begin(); it != node->children.end(); it++) {
+        if (it->second != nullptr) {
             if (leaf == 1 && node->start != -1) {
                 cout << node->suffixIndex << "\n";
             }
 
             leaf = 0;
-            printSuffixTree(node->children[j], depth + 1);
+            printSuffixTree(it->second, depth + 1);
         }
     }
 
@@ -248,6 +262,22 @@ void SuffixTree::printSuffixTree(Node *node, int depth) {
     }
 }
 
+void SuffixTree::freeSuffixTreeByPostOrder(Node *node)
+{
+    if (node == nullptr)
+        return;
+    map<MatItem, SuffixTreeNode*>::iterator it;
+    for (it = node->children.begin(); it != node->children.end(); it++) {
+        if (it->second != nullptr) {
+            freeSuffixTreeByPostOrder(it->second);
+        }
+    }
+
+    if (node->suffixIndex == -1)
+        delete node->end;
+
+    delete node;
+}
 /**
  * buildSuffixTree
  * @brief Construction of a simple suffix tree.
@@ -260,7 +290,7 @@ Node* SuffixTree::buildSuffixTree() {
 
     root = createNewNode(-1, rootEnd);
     SuffixTree::setActivePoint(root, 0, 0);
-    for (int i(0); i < sentence.length(); i++) {
+    for (int i(0); i < sentence.size(); i++) {
         extendSuffixTree(i, sentence);
     }
     int labelHeight = 0;
@@ -270,7 +300,18 @@ Node* SuffixTree::buildSuffixTree() {
 }
 
 int main(int argc, const char * argv[]) {
-    SuffixTree tree ("abcabxabcd");
+    vector<MatItem> vec;
+    vec.push_back({120, false});
+    vec.push_back({0, true});
+    vec.push_back({98, false});
+    vec.push_back({97, false});
+    vec.push_back({98, false});
+    vec.push_back({120, false});
+    vec.push_back({98, false});
+    vec.push_back({97, false});
+    vec.push_back({1, true});
+
+    SuffixTree tree (vec);
     tree.buildSuffixTree();
     tree.printSuffixTree(tree.getRoot(), 0);
     return 0;

@@ -1,13 +1,26 @@
 #ifndef SuffixTree_hpp
 #define SuffixTree_hpp
 
-#define MAXCHARS 256
-
 #include <iostream>
+#include <vector>
+#include <map>
 #include <string>
 
+using namespace std;
+
+struct MatItem {
+    int v = 0;
+    bool isSeparator = false;
+
+};
+
+struct MatItemComp {
+    bool operator() (MatItem l, MatItem r) const
+    { return l.v < r.v; }
+};
+
 struct SuffixTreeNode {
-    struct SuffixTreeNode *children[MAXCHARS];
+    map<MatItem, SuffixTreeNode*, MatItemComp> children;
     struct SuffixTreeNode *suffixLink;
     int start;
     int *end;
@@ -22,8 +35,6 @@ struct ActivePoint {
     int activeLength = 0;
 };
 
-using namespace std;
-
 class SuffixTree {
     Node *root;
     Node *lastNewNode;
@@ -33,13 +44,14 @@ class SuffixTree {
     int *rootEnd;
     int *splitEnd;
     int size;
-    string sentence;
+    vector<MatItem> sentence;
 
     public:
         SuffixTree();
-        SuffixTree(string);
+        SuffixTree(vector<MatItem>);
+        ~SuffixTree();
         void setActivePoint(Node*, int, int);
-        void setSentence(string);
+        void setSentence(vector<MatItem>);
         Node* getRoot();
         Node* buildSuffixTree();
         void printSuffixTree(Node*, int);
@@ -48,8 +60,9 @@ class SuffixTree {
         Node* createNewNode(int, int*);
         int getEdgeLength(Node*);
         bool walkDown(Node*);
-        void extendSuffixTree(int, string);
+        void extendSuffixTree(int, vector<MatItem>);
         void setSuffixIndex(Node*, int);
+        void freeSuffixTreeByPostOrder(Node*);
 };
 
 #endif
