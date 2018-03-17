@@ -50,11 +50,29 @@ class SuffixTree {
         SuffixTree();
         SuffixTree(vector<MatItem>);
         ~SuffixTree();
-        void setActivePoint(Node*, int, int);
-        void setSentence(vector<MatItem>);
-        Node* getRoot();
         Node* buildSuffixTree();
         void printSuffixTree(Node*, int);
+
+        Node* getRoot();
+        vector<MatItem> getSentence();
+        const Node* getLastNewNode();
+        int getRemainder();
+        int getEnd();
+        ActivePoint getActivePoint();
+        const int* getRootEnd();
+        const int* getSplitEnd();
+        int getSize();
+        void setSentence(vector<MatItem>);
+
+    protected:
+        void setRoot(Node *node);
+        void setLastNewNode(Node *node);
+        void setRemainder(int i);
+        void setEnd(int i);
+        void setActivePoint(Node*, int, int);
+        void setSplitEnd(int i);
+        void setSize(int i);
+        void setRootEnd(int i);
 
     private:
         Node* createNewNode(int, int*);
