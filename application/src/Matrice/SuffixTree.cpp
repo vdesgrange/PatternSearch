@@ -25,7 +25,7 @@ SuffixTree::SuffixTree (vector<MatItem> items) {
 }
 
 SuffixTree::~SuffixTree() {
-    freeSuffixTreeByPostOrder(root);
+    //freeSuffixTreeByPostOrder(root);
 }
 /**
  * getRoot
@@ -193,7 +193,7 @@ void SuffixTree::setRootEnd(int i) {
  */
 Node* SuffixTree::createNewNode(int start, int *end) {
     Node *node = new Node();
-    node->suffixLink = nullptr;
+    node->suffixLink = this->root;
     node->start = start;
     node->end = end;
     node->suffixIndex = -1;
@@ -249,20 +249,8 @@ void SuffixTree::extendSuffixTree(int pos, vector<MatItem> sentence) {
         if (this->getActivePoint().activeLength == 0)
             activePoint.activeEdge = pos;
 
-        cout << "lol12" << endl;
-        auto a = activePoint.activeEdge;
-        cout << "lol13" << a << endl;
-        auto b = sentence[activePoint.activeEdge];
-        cout << "lol14" << endl;
-        auto c = activePoint.activeNode;
-        cout << "lol15" << c << endl;
-        auto p = activePoint.activeNode->children;
-        cout << "lol16" << endl;
-        auto e = activePoint.activeNode->children[sentence[activePoint.activeEdge]];
-        cout << "lol17" << endl;
-
-        // If no child for active caractere, create a child.
-        if (activePoint.activeNode->children[sentence[activePoint.activeEdge]] == nullptr) {
+        // If no child for active item, create a child.
+        if (activePoint.activeNode->children.count(sentence[activePoint.activeEdge]) == 0) {
             activePoint.activeNode->children[sentence[activePoint.activeEdge]] = createNewNode(pos, &end);
             if (lastNewNode != nullptr) {
                 lastNewNode->suffixLink = activePoint.activeNode;
@@ -274,19 +262,22 @@ void SuffixTree::extendSuffixTree(int pos, vector<MatItem> sentence) {
                 continue; // Restart from next active node.
             }
 
-            // String caractere currently processed is already into the tree.
-            if (sentence[next->start + activePoint.activeLength].v == sentence[pos].v) {
+            // Item currently processed is already into the tree.
+            if (
+                    (sentence[next->start + activePoint.activeLength].v == sentence[pos].v) &&
+                    (sentence[next->start + activePoint.activeLength].isSeparator == sentence[pos].isSeparator)
+               ) {
                 if (lastNewNode != nullptr && activePoint.activeNode != root) {
                     lastNewNode->suffixLink = activePoint.activeNode;
                     lastNewNode = nullptr;
                 }
-                // Caractere from string matched on path represented by ActivePoint.
+                // Item matched on path represented by ActivePoint.
                 // Increase activeLength by 1 to represente this matching.
                 activePoint.activeLength++;
                 break;
             }
 
-            // Processing into an edge of a tree with new caractere.
+            // Processing into an edge of a tree with new item.
             // Adding new intermediate node to the branch.
             // Compute interne node end index.
             splitEnd = new int();
@@ -294,9 +285,9 @@ void SuffixTree::extendSuffixTree(int pos, vector<MatItem> sentence) {
             // Create splitting node.
             Node *split = createNewNode(next->start, splitEnd);
             activePoint.activeNode->children[sentence[activePoint.activeEdge]] = split;
-            // Add branch for current caractere.
+            // Add branch for current item.
             split->children[sentence[pos]] = createNewNode(pos, &end);
-            // Add branch for  substring of the past edge.
+            // Add branch for  sub-sequence of the past edge.
             next->start += activePoint.activeLength;
             split->children[sentence[next->start]] = next;
 
@@ -313,22 +304,22 @@ void SuffixTree::extendSuffixTree(int pos, vector<MatItem> sentence) {
         if (activePoint.activeNode == root && activePoint.activeLength > 0) {
             activePoint.activeLength--;
             activePoint.activeEdge = pos - remainder + 1;
-        } else if ( activePoint.activeNode != root ) {
+        } else if ( activePoint.activeNode != root && activePoint.activeNode->suffixLink != nullptr) {
             activePoint.activeNode = activePoint.activeNode->suffixLink;
-            cout << " -> " << activePoint.activeNode->suffixLink << endl;
         }
-        cout << "lol10" << endl;
-        cout << remainder << endl;
     }
 }
 
 /**
  * setSuffixIndex
- * @brief Set suffix tree leaf index
+ * @brief Set suffix tree leaf index and clean the suffix trie.
+ * It will set the suffix tree leaf with the suffix index.
+ * It will clean the suffix tree from unwanted sentence by finding separators.
  * @param {Node*} node - step node in the tree
  * @param {int} labelHeight - current index
  */
 void SuffixTree::setSuffixIndex(Node *node, int labelHeight) {
+    // If node is a nullptr. Stop progress and return.
     if (node == nullptr) {
         return;
     }
@@ -336,16 +327,18 @@ void SuffixTree::setSuffixIndex(Node *node, int labelHeight) {
     int leaf = 1;
     map<MatItem, SuffixTreeNode*>::iterator it;
     for (it = node->children.begin(); it != node->children.end(); it++) {
+        // Check there is no issue in children address.
         if (it->second != nullptr) {
-            leaf = 0;
+            leaf = 0; // There is at least one child, so edge is not a leaf.
             setSuffixIndex(it->second, labelHeight + getEdgeLength(it->second));
         }
     }
 
+    // If edge is a leaf, we check if there is a separator of sub-sentences.
     if (leaf == 1) {
         for (int i(node->start); i <= *(node->end); i++) {
-            if (sentence[i].isSeparator) {
-                node->end = new int();
+            if (sentence[i].isSeparator) { // Separator of the next sub-sentence.
+                node->end = new int(); // We remove the end of the edge.
                 *(node->end) = i;
             }
         }
@@ -363,8 +356,11 @@ void SuffixTree::printSuffixTree(Node *node, int depth) {
     // Local printing function (closure)
     auto print = [] (int start, int end, vector<MatItem> sentence) {
         cout << "└";
-        for (int i(start); i <= end; i++ )
-            cout << sentence[i].v;
+        for (int i(start); i <= end; i++ ) {
+            if (sentence[i].isSeparator)
+                cout << "$";
+            cout << sentence[i].v << ".";
+        }
         cout << "-ø";
     };
 
@@ -437,9 +433,7 @@ Node* SuffixTree::buildSuffixTree() {
     root = createNewNode(-1, rootEnd);
     SuffixTree::setActivePoint(root, 0, 0);
     for (int i(0); i < sentence.size(); i++) {
-        cout << i << endl;
         extendSuffixTree(i, sentence);
-        cout << i << endl;
     }
     int labelHeight = 0;
     setSuffixIndex(root, labelHeight);
@@ -450,6 +444,10 @@ Node* SuffixTree::buildSuffixTree() {
 int main(int argc, const char * argv[]) {
     vector<MatItem> vec;
     vec.push_back({120, false});
+    vec.push_back({97, false});
+    vec.push_back({98, false});
+    vec.push_back({120, false});
+    vec.push_back({97, false});
     vec.push_back({0, true});
     vec.push_back({98, false});
     vec.push_back({97, false});

@@ -12,11 +12,13 @@ INC := -I include/ -I/usr/local/include/botan-2 $(shell pkg-config --cflags open
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
-	@echo " $(CC) $^ -o $(target)"; $(CC) $^ $(LIB) $(INC) -o $(TARGET)
+	@echo " $(CC) $(CFLAGS) $^ -o $(target)"; $(CC) $(CFLAGS) $^ $(LIB) $(INC) -o $(TARGET)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(shell dirname $@)
 	@echo " $(CC) $(CFLAGS) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
+
+all: $(TARGET)
 
 clean:
 	@echo " Cleaning...";

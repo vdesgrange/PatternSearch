@@ -11,12 +11,20 @@ using namespace std;
 struct MatItem {
     int v = 0;
     bool isSeparator = false;
-
 };
 
 struct MatItemComp {
-    bool operator() (MatItem l, MatItem r) const
-    { return l.v < r.v; }
+    bool operator() (const MatItem &l, const MatItem &r) const {
+        if (l.isSeparator && !r.isSeparator) {
+            return true;
+        } else if (!l.isSeparator && r.isSeparator) {
+            return false;
+        } else if (l.v < r.v) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 };
 
 struct SuffixTreeNode {
