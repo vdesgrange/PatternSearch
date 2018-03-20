@@ -9,7 +9,7 @@ SuffixTree::SuffixTree () {
     end = 0;
     rootEnd = nullptr;
     splitEnd = nullptr;
-    size = 0;
+    size = -1;
 }
 
 SuffixTree::SuffixTree (vector<MatItem> items) {
@@ -21,7 +21,7 @@ SuffixTree::SuffixTree (vector<MatItem> items) {
     end = 0;
     rootEnd = nullptr;
     splitEnd = nullptr;
-    size = 0;
+    size = -1;
 }
 
 SuffixTree::~SuffixTree() {
@@ -208,6 +208,9 @@ Node* SuffixTree::createNewNode(int start, int *end) {
  * @return {int} Edge length of a node.
  */
 int SuffixTree::getEdgeLength(Node* node) {
+    if (node == this->root)
+        return 0;
+
     return *(node->end) - node->start + 1;
 }
 
@@ -337,12 +340,12 @@ void SuffixTree::setSuffixIndex(Node *node, int labelHeight) {
     // If edge is a leaf, we check if there is a separator of sub-sentences.
     if (leaf == 1) {
         for (int i(node->start); i <= *(node->end); i++) {
-            if (sentence[i].isSeparator) { // Separator of the next sub-sentence.
+            if (i != -1 && sentence[i].isSeparator) { // Separator of the next sub-sentence.
                 node->end = new int(); // We remove the end of the edge.
                 *(node->end) = i;
             }
         }
-        node->suffixIndex = size - labelHeight;
+        node->suffixIndex = this->getSize() - labelHeight;
     }
 }
 
@@ -427,11 +430,14 @@ void SuffixTree::freeSuffixTreeByPostOrder(Node *node)
  * @return {Node*} Pointer to root node
  */
 Node* SuffixTree::buildSuffixTree() {
+    cout << "Build suffix tree." << endl;
+
+    this->setSize(this->getSentence().size());
     rootEnd = new int();
     *rootEnd = -1;
 
     root = createNewNode(-1, rootEnd);
-    SuffixTree::setActivePoint(root, 0, 0);
+    setActivePoint(root, -1, 0);
     for (int i(0); i < sentence.size(); i++) {
         extendSuffixTree(i, sentence);
     }
@@ -439,26 +445,4 @@ Node* SuffixTree::buildSuffixTree() {
     setSuffixIndex(root, labelHeight);
 
     return root;
-}
-
-int main(int argc, const char * argv[]) {
-    vector<MatItem> vec;
-    vec.push_back({120, false});
-    vec.push_back({97, false});
-    vec.push_back({98, false});
-    vec.push_back({120, false});
-    vec.push_back({97, false});
-    vec.push_back({0, true});
-    vec.push_back({98, false});
-    vec.push_back({97, false});
-    vec.push_back({98, false});
-    vec.push_back({120, false});
-    vec.push_back({98, false});
-    vec.push_back({97, false});
-    vec.push_back({1, true});
-
-    SuffixTree tree (vec);
-    tree.buildSuffixTree();
-    tree.printSuffixTree(tree.getRoot(), 0);
-    return 0;
 }

@@ -20,13 +20,13 @@ class Matrice {
         Matrice();
         ~Matrice();
         Node* getRoot();
+        SuffixTree* getSuffixTree();
         void buildMatrice(vvvi);
         void toString();
+        void setRoot(Node*);
 
     private:
-        SuffixTree getSuffixTree();
         void setSuffixTree(SuffixTree);
-        void setRoot(Node*);
 };
 
 #endif

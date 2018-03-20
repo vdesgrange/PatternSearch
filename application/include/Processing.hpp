@@ -2,7 +2,7 @@
 #define Processing_hpp
 
 #include <iostream>
-#include <map>
+#include <vector>
 #include <string>
 
 #include "SearchSequence.hpp"
@@ -21,7 +21,7 @@ enum Operation {
 class Processing {
     public:
         Processing();
-        static string applySearch(string, Matrice, int[]);
+        static string applySearch(string, Matrice, vector<int>);
 };
 
 #endif

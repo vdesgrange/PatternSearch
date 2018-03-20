@@ -14,9 +14,9 @@ using namespace std;
 class SearchUnordered : public Search {
     public:
         SearchUnordered();
-        string doSearch(Matrice, int[]);
+        string doSearch(Matrice, vector<int>);
     private:
-        map<int, vector<int> > searchOperation(Matrice, int[]);
+        map<int, vector<int> > searchOperation(Matrice, vector<int>);
         string stringifyResult(map<int, vector<int> >);
 };
 

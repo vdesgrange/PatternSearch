@@ -3,12 +3,12 @@
 SearchUnordered::SearchUnordered() {
 }
 
-string SearchUnordered::doSearch(Matrice mat, int sequence[]) {
+string SearchUnordered::doSearch(Matrice mat, vector<int> sequence) {
     map<int, vector<int> > result = searchOperation(mat, sequence);
     return stringifyResult(result);
 }
 
-map<int, vector<int> > SearchUnordered::searchOperation(Matrice mat, int sequence[]) {
+map<int, vector<int> > SearchUnordered::searchOperation(Matrice mat, vector<int> sequence) {
     map<int, vector<int> > result;
     return result;
 }

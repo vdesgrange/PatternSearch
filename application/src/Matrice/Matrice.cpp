@@ -5,7 +5,7 @@ Matrice::Matrice () {
 }
 
 Matrice::~Matrice () {
-    delete root;
+//    delete root;
 }
 
 /**
@@ -31,8 +31,8 @@ void Matrice::setRoot(Node* node) {
  * @brief  suffix tree getter
  * @return {SuffixTree} suffix tree
  */
-SuffixTree Matrice::getSuffixTree() {
-    return this->tree;
+SuffixTree* Matrice::getSuffixTree() {
+    return &tree;
 }
 
 /**
@@ -77,3 +77,4 @@ void Matrice::buildMatrice(vvvi content) {
 void Matrice::toString() {
     this->tree.printSuffixTree(getRoot(), 0);
 }
+

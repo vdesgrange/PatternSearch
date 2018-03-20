@@ -70,6 +70,7 @@ class SuffixTree {
         const int* getRootEnd();
         const int* getSplitEnd();
         int getSize();
+        int getEdgeLength(Node*);
         void setSentence(vector<MatItem>);
 
     protected:
@@ -84,7 +85,6 @@ class SuffixTree {
 
     private:
         Node* createNewNode(int, int*);
-        int getEdgeLength(Node*);
         bool walkDown(Node*);
         void extendSuffixTree(int, vector<MatItem>);
         void setSuffixIndex(Node*, int);
