@@ -1,28 +1,52 @@
 @startuml
 
 class Processing {
-    +string applySearch(string, Matrice, int[])
+    +string applySearch(string, Matrice, vector<int>)
 }
 
 class SearchSequence {
-    +hashmap<int,vector<int> > doSearch(Matrice, int[])
-    +string stringifyResult(hashmap< int, vector<int> >)
+    +string doSearch(Matrice, vector<int>)
+    -vector<Position> searchOperation(Matrice, vector<int>)
+    -string stringifyResult(vector<Position>)
+    -int matriceTraversal(Matrice mat, Node*, vector<int>, int, vector<Position>*)
+    -int traverseEdge(Matrice *mat, vector<int>, int, int, int)
+    -int doTraversalToCountLeaf(Matrice*, Node*, vector<Position>*)
 }
 
 class SearchUnordered {
-    +hashmap<int,vector<int> > doSearch(Matrice, int[])
-    +string stringifyResult(hashmap< int, vector<int> >)
+    +string doSearch(Matrice, vector<int>)
+    -vector<Position> searchOperation(Matrice, vector<int>)
+    -string stringifyResult(vector<Position>)
 }
 
 class SearchClosestMatch {
-    +hashmap<int,vector<int> > doSearch(Matrice, int[])
-    +string stringifyResult(hashmap< int, vector<int> >)
+    +string doSearch(Matrice, vector<int>)
+    -vector<Position> searchOperation(Matrice, vector<int>)
+    -string stringifyResult(vector<Position>)
 }
 
-interface Search {
-    +hashmap<int,vector<int> > doSearch(Matrice, int[])
-    +string stringifyResult(hashmap< int, vector<int> >)
+enum TypeLine {
+    row
+    col
 }
+
+object Position {
+    int global
+    int local
+    TypeLine type
+    int index
+}
+
+abstract class Search {
+    +{abstract} string doSearch(Matrice, vector<int>)
+    +{static} Position getPositionData(Matrice*, Node*)
+    +{static} string stringifyPosition(Position)
+    -{abstract} vector<Position> searchOperation(Matrice, vector<int>)
+    -{abstract} string stringifyResult(vector<Position>)
+}
+
+Search "1" o-- "*" Position
+Position "1" o-- "1" TypeLine
 
 Processing "1" --> "1" SearchSequence
 Processing "1" --> "1" SearchUnordered

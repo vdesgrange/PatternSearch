@@ -1,17 +1,102 @@
 @startuml
 
 class Matrice {
-    -Object matrice
+    +SuffixTree* getSuffixTree()
+    +void buildMatrice(vvvi)
+    +void toString()
+    +SuffixTreeNode* getRoot()
+    +int getRows()
+    +int getCols()
+    +void setRoot(SuffixTreeNode*)
+    +void setRows(int)
+    +void setCols(int)
 
-    +Object getMatrice()
-    -void setMatrice(Object)
-    +Object process2DArray(int[][])
+    -void setSuffixTree(SuffixTree)
+}
+
+object MatItem {
+    int v
+    bool isSeparator
+};
+
+object MatItemComp {
+    +bool operator() (const MatItem &l, const MatItem &r) const
+}
+
+object SuffixTreeNode {
+    map<MatItem, SuffixTreeNode*, MatItemComp> children
+    struct SuffixTreeNode *suffixLink
+    int start
+    int *end
+    int suffixIndex
+}
+
+object ActivePoint {
+    SuffixTreeNode *activeNode = nullptr;
+    int activeEdge = 0;
+    int activeLength = 0;
+}
+
+class SuffixTree {
+    -SuffixTreeNode *root;
+    -SuffixTreeNode *lastNewNode;
+    -ActivePoint activePoint;
+    -int remainder;
+    -int end;
+    -int *rootEnd;
+    -int *splitEnd;
+    -int size;
+    -vector<MatItem> sentence;
+
+    +SuffixTree()
+    +SuffixTree(vector<MatItem>)
+    +~SuffixTree()
+    +SuffixTreeNode* buildSuffixTree()
+    +void printSuffixTree(SuffixTreeNode*, int)
+    +SuffixTreeNode* getRoot()
+    +vector<MatItem> getSentence()
+    +const SuffixTreeNode* getLastNewNode()
+    +int getRemainder()
+    +int getEnd()
+    +ActivePoint getActivePoint()
+    +const int* getRootEnd()
+    +const int* getSplitEnd()
+    +int getSize()
+    +int getEdgeLength(SuffixTreeNode*)
+    +void setSentence(vector<MatItem>)
+
+    #void setRoot(SuffixTreeNode*)
+    #void setLastNewNode(SuffixTreeNode*)
+    #void setRemainder(int)
+    #void setEnd(int)
+    #void setActivePoint(SuffixTreeNode*, int, int)
+    #void setSplitEnd(int)
+    #void setSize(int)
+    #void setRootEnd(int)
+
+    -SuffixTreeNode* createNewNode(int, int*)
+    -bool walkDown(SuffixTreeNode*)
+    -void extendSuffixTree(int, vector<MatItem>)
+    -void setSuffixIndex(SuffixTreeNode*, int)
+    -void freeSuffixTreeByPostOrder(SuffixTreeNode*)
 }
 
 class FileProcessor
 class Processing
 class OperationManagement
 
+SuffixTreeNode "1" o-- "*" SuffixTreeNode
+SuffixTreeNode "1" o-- "*" MatItem
+SuffixTreeNode "1" o-- "1" MatItemComp
+
+ActivePoint "1" o-- "1" SuffixTreeNode
+
+SuffixTree "1" o-- "*" MatItem
+SuffixTree "1" o-- "*" SuffixTreeNode
+SuffixTree "1" o-- "1" ActivePoint
+
+Matrice o-- SuffixTreeNode
+Matrice o-- SuffixTree
 Matrice --o OperationManagement
 Matrice --o FileProcessor
 Matrice --o Processing
