@@ -88,7 +88,9 @@ This way we can easily find the number of match, its location into the suffix tr
 \bigskip
 
 \par
-Search closest match feature (matching of an uncomplete or divided sequence) should be more difficult. However, since our data structure is a tree, we can consider graph algorithm (Djikstra).
+Search closest match feature (matching of an uncomplete or divided sequence) should be more difficult. This is a k-difference problem. In order to stay in correct time, we will have to fix a limit k to closest matching.
+We can consider solution such has Dynamic programming. However we will probably have to perform the search in O(nm).
+
 \bigskip
 
 \par

@@ -26,7 +26,7 @@ int main(int argc, const char * argv[]) {
     vec.push_back({98, false});
     vec.push_back({4, true});
 
-    pattern.push_back(98);
+    pattern.push_back(97);
     pattern.push_back(120);
 
     mat.setRows(2);
@@ -34,7 +34,8 @@ int main(int argc, const char * argv[]) {
     mat.getSuffixTree()->setSentence(vec);
     mat.setRoot(mat.getSuffixTree()->buildSuffixTree());
     mat.getSuffixTree()->printSuffixTree(mat.getSuffixTree()->getRoot(), 0);
-    cout << Processing::applySearch("searchSequence", mat, pattern) << endl;
+    //cout << Processing::applySearch("searchSequence", mat, pattern) << endl;
+    cout << Processing::applySearch("searchClosestMatch", mat, pattern) << endl;
 
     return 0;
 }
