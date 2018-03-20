@@ -1,2 +1,7 @@
 # Exclude binaries
 report/plantuml.jar
+application/.cproject
+application/.project
+application/.settings
+**/*.pdf
+**/.DS_STORE
