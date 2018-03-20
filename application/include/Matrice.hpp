@@ -15,15 +15,21 @@ using namespace std;
 class Matrice {
     Node *root;
     SuffixTree tree;
+    int rows, cols;
 
     public:
         Matrice();
         ~Matrice();
-        Node* getRoot();
         SuffixTree* getSuffixTree();
         void buildMatrice(vvvi);
         void toString();
+
+        Node* getRoot();
+        int getRows();
+        int getCols();
         void setRoot(Node*);
+        void setRows(int);
+        void setCols(int);
 
     private:
         void setSuffixTree(SuffixTree);

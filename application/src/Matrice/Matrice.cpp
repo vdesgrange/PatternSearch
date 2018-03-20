@@ -2,6 +2,8 @@
 
 Matrice::Matrice () {
     root = nullptr;
+    rows = 0;
+    cols = 0;
 }
 
 Matrice::~Matrice () {
@@ -45,6 +47,42 @@ void Matrice::setSuffixTree(SuffixTree tree) {
 }
 
 /**
+ * getRows
+ * @brief  rows getter
+ * @return {int} number of rows
+ */
+int Matrice::getRows() {
+    return this->rows;
+}
+
+/**
+ * setRows
+ * @brief  rows setter
+ * @param {int} number of rows
+ */
+void Matrice::setRows(int rows) {
+    this->rows = rows;
+}
+
+/**
+ * getCols
+ * @brief  cols getter
+ * @return {int} number of cols
+ */
+int Matrice::getCols() {
+    return this->cols;
+}
+
+/**
+ * setRows
+ * @brief  rows setter
+ * @param {int} number of rows
+ */
+void Matrice::setCols(int cols) {
+    this->cols = cols;
+}
+
+/**
  * buildMatrice
  * @brief Build a Matrice from vvvi.
  * Build a Matrice (generalised suffix tree) from simple
@@ -56,6 +94,10 @@ void Matrice::setSuffixTree(SuffixTree tree) {
 void Matrice::buildMatrice(vvvi content) {
     vector<MatItem> source;
     int index(0);
+
+    this->setRows(content.size());
+    if (content.size() > 0)
+        this->setCols(content.front().size());
 
     for (const auto& row : content) {
         for (const auto& col : row) { // We consider only 1 value per item.
@@ -75,6 +117,14 @@ void Matrice::buildMatrice(vvvi content) {
  * @TODO
  */
 void Matrice::toString() {
+    cout
+        << "Matrice ("
+        << this->getRows()
+        << " x "
+        << this->getCols()
+        << ")"
+        << endl;
+
     this->tree.printSuffixTree(getRoot(), 0);
 }
 

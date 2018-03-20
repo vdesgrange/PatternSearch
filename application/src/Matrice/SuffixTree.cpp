@@ -435,11 +435,15 @@ Node* SuffixTree::buildSuffixTree() {
     this->setSize(this->getSentence().size());
     rootEnd = new int();
     *rootEnd = -1;
+    //int rows(0);
 
     root = createNewNode(-1, rootEnd);
     setActivePoint(root, -1, 0);
     for (int i(0); i < sentence.size(); i++) {
         extendSuffixTree(i, sentence);
+        //if (sentence.at(i).isSeparator)
+        //    rowsIndexer.insert(pair<int,int>(i, rows++));
+
     }
     int labelHeight = 0;
     setSuffixIndex(root, labelHeight);

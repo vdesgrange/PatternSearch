@@ -32,10 +32,11 @@ int SearchSequence::matriceTraversal(Matrice mat, Node *node, vector<int> patter
             return -1;
 
         if (res == 1) {
-            if (node->suffixIndex > -1)
-                cout << node->suffixIndex << endl;
-            else
-                cout << countLeaf(node) << endl;
+            if (node->suffixIndex > -1) {
+                cout << super::stringifyPosition(&mat, node) << endl;
+            } else {
+                cout << countLeaf(&mat, node) << endl;
+            }
             return 1;
         }
     }
@@ -64,28 +65,28 @@ int SearchSequence::traverseEdge(Matrice *mat, vector<int> pattern, int idx, int
     return 0;
 }
 
-int SearchSequence::doTraversalToCountLeaf(Node *node) {
+int SearchSequence::doTraversalToCountLeaf(Matrice *mat, Node *node) {
     if (node == nullptr)
         return 0;
 
     if (node->suffixIndex > -1 ){
-        cout << "Found at position " << node->suffixIndex << endl;
+        cout << super::stringifyPosition(mat, node) << endl;
         return 1;
     }
 
     int count(0);
     map<MatItem, SuffixTreeNode*>::iterator it;
     for (auto it : node->children) {
-        count += doTraversalToCountLeaf(it.second);
+        count += doTraversalToCountLeaf(mat, it.second);
     }
 
     return count;
 
 }
 
-int SearchSequence::countLeaf(Node *node) {
+int SearchSequence::countLeaf(Matrice *mat, Node *node) {
     if (node == nullptr)
         return 0;
-    return doTraversalToCountLeaf(node);
+    return doTraversalToCountLeaf(mat, node);
 }
 
