@@ -16,8 +16,9 @@ class SearchClosestMatch : public Search {
         SearchClosestMatch();
         string doSearch(Matrice, vector<int>);
     private:
-        map<int, vector<int> > searchOperation(Matrice, vector<int>);
-        string stringifyResult(map<int, vector<int> >);
+        typedef Search super;
+        vector<Position> searchOperation(Matrice, vector<int>);
+        string stringifyResult(vector<Position>);
 };
 
 #endif

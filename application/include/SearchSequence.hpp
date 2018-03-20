@@ -17,12 +17,11 @@ class SearchSequence : public Search {
         string doSearch(Matrice, vector<int>);
     private:
         typedef Search super;
-        map<int, vector<int> > searchOperation(Matrice, vector<int>);
-        string stringifyResult(map<int, vector<int> >);
-        int matriceTraversal(Matrice mat, Node*, vector<int>, int);
+        vector<Position> searchOperation(Matrice, vector<int>);
+        string stringifyResult(vector<Position>);
+        int matriceTraversal(Matrice mat, Node*, vector<int>, int, vector<Position>*);
         int traverseEdge(Matrice *mat, vector<int>, int, int, int);
-        int doTraversalToCountLeaf(Matrice*, Node*);
-        int countLeaf(Matrice*, Node*);
+        int doTraversalToCountLeaf(Matrice*, Node*, vector<Position>*);
 };
 
 #endif

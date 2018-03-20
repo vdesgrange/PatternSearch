@@ -4,17 +4,28 @@ SearchClosestMatch::SearchClosestMatch() {
 }
 
 string SearchClosestMatch::doSearch(Matrice mat, vector<int> sequence) {
-    map<int, vector<int> > result = searchOperation(mat, sequence);
+    cout << "Make sequence research." << endl;
+    vector<Position> result = searchOperation(mat, sequence);
     return stringifyResult(result);
 }
 
-map<int, vector<int> > SearchClosestMatch::searchOperation(Matrice mat, vector<int> sequence) {
-    map<int, vector<int> > result;
+/**
+ * searchOperation
+ */
+vector<Position> SearchClosestMatch::searchOperation(Matrice mat, vector<int> pattern) {
+    vector<Position> result;
+    int numberMatching(0);
     Node *root = mat.getRoot();
     return result;
 }
 
-string SearchClosestMatch::stringifyResult(map<int, vector<int> > research) {
-    string result = "";
-    return result;
+/**
+ * stringifyResult
+ * @brief Stringi the result of the pattern search.
+ * @param {vector<Position>} vec - list of positions matching.
+ * @return {string} Return the stringify result of the pattern search.
+ */
+string SearchClosestMatch::stringifyResult(vector<Position> vec) {
+    stringstream ss;
+    return ss.str();
 }

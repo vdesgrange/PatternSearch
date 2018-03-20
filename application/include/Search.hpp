@@ -12,14 +12,27 @@
 
 using namespace std;
 
+enum TypeLine {
+    row,
+    col
+};
+
+struct Position {
+    int global;
+    int local;
+    TypeLine type;
+    int index;
+};
+
 class Search {
     public:
         virtual string doSearch(Matrice, vector<int>) = 0;
-        static string stringifyPosition(Matrice*, Node*);
+        static Position getPositionData(Matrice*, Node*);
+        static string stringifyPosition(Position);
 
     private:
-        virtual map<int, vector<int> > searchOperation(Matrice, vector<int>) = 0;
-        virtual string stringifyResult(map<int, vector<int> >) = 0;
+        virtual vector<Position> searchOperation(Matrice, vector<int>) = 0;
+        virtual string stringifyResult(vector<Position>) = 0;
 };
 
 #endif

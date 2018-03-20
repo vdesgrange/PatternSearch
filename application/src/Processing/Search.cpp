@@ -1,17 +1,13 @@
 #include "../../include/Search.hpp"
 
 /**
- * stringifyPosition
- * @brief Stringify the position of a research result.
- * When a pattern position is find by research, this method
- * create a string with row col in the matrice and position in the row/col.
- * It is considering that we have a matrice with sentence of same length.
+ * getPositionData
+ * @brief Get details of the position of a research result.
  * @param {Matrice*} mat - object matrice
  * @param {Node*} node - node currently visited in suffix trie.
- * @return {string} Position of the pattern.
-*/
-string Search::stringifyPosition(Matrice *mat, Node *node) {
-    stringstream out;
+ */
+Position Search::getPositionData(Matrice *mat, Node *node) {
+    Position data;
     int idx = *(node->end);
     int rows = mat->getRows();
     int cols = mat->getCols();
@@ -25,12 +21,37 @@ string Search::stringifyPosition(Matrice *mat, Node *node) {
     if (mat != nullptr && mat->getSuffixTree() != nullptr)
         idxLine = mat->getSuffixTree()->getSentence().at(idx).v;
 
-    out << "Found at position "
-        << position + 1;
     if (idxLine < rows) { // Is a row
-        out << " in row " << idxLine + 1; // Indexing from 1.
+        data.type = TypeLine::row;
+        data.index = idxLine + 1; // Indexing from 1.
     } else {
-        out << " in col " << idxLine - rows + 1;
+        data.type = TypeLine::col;
+        data.index = idxLine - rows + 1;
+    }
+
+    data.global = node->suffixIndex;
+    data.local = position + 1;
+
+    return data;
+}
+
+/**
+ * stringifyPosition
+ * @brief Stringify the position of a research result.
+ * When a pattern position is find by research, this method
+ * create a string with row col in the matrice and position in the row/col.
+ * It is considering that we have a matrice with sentence of same length.
+ * @param {Matrice*} mat - object matrice
+ * @param {Node*} node - node currently visited in suffix trie.
+ * @return {string} Position of the pattern.
+*/
+string Search::stringifyPosition(Position pos) {
+    stringstream out;
+    out << "Found at position " << pos.local;
+    if (pos.type == row) {
+        out << " in row " << pos.index;
+    } else if (pos.type == col){
+        out << " in col " << pos.index;
     }
 
    return out.str();
