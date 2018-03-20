@@ -71,3 +71,27 @@ for a simple sentence. We will consider each row and each column of our matrix a
 
 \par
 In our case this data structure would suits perfectly since we have to handle pattern search for a list of rows/cols sequences.
+
+\subsection{Search in suffix tree}
+
+\par
+Search sequence feature (matching of the full sequence), should be the most simple feature to implement.
+With the generalised suffix tree, in order to match the integer sequence, we will implement a deep-first search algorithm.
+\begin{enumerate}
+	\item Select the branch of the suffix tree where we start the pattern search.
+	\item Then go through the edge and try to match the pattern.
+	\item If it doesn't match, we directly stop the research.\\
+	If pattern is longer than the edge, we continue recursively.
+	If pattern is find, we count the amount of leaf under this suffix (all of these suffix contain the pattern).
+\end{enumerate}
+This way we can easily find the number of match, its location into the suffix tree and matrix.
+\bigskip
+
+\par
+Search closest match feature (matching of an uncomplete or divided sequence) should be more difficult. However, since our data structure is a tree, we can consider graph algorithm (Djikstra).
+\bigskip
+
+\par
+Search unordered match feature, can have different solution.\\
+The most simple one would be to construct a new suffix tree. By ordering the item of the matrix from smallest to biggest for every rows and columns.\\
+After that we could just have to remove every element from our sequence (represented by a vector) while going through the tree. And stop when we arrived at the end of a branch, or that we have an empty sequence.\\
