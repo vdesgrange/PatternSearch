@@ -48,32 +48,43 @@ int SearchClosestMatch::matriceTraversal(Matrice mat, Node *node, vector<int> pa
     pq q;
     q.push({node, 0, 0});
     int penalty(0);
-    Node* bestNode = nullptr;
-    unsigned int bestDistance(10000000);
+    ExplorationNode bestNode = {node, 0, 0};
 
     if (node == nullptr)
         return -1;
 
-    while (!q.empty() && bestNode == nullptr) {
+    while (!q.empty()) {
         ExplorationNode enode = q.top();
         q.pop();
-        if (enode.index >= pattern.size() && enode.distance < bestDistance) {
-            bestNode = enode.node;
-            bestDistance = enode.distance;
+
+        // Exploration Node better than what we found earlier
+        if (enode.index > bestNode.index)
+            bestNode = enode;
+
+        if (enode.index >= pattern.size()) {
+            // Shortest path to find pattern
+            break;
         } else {
+            // Ignore letter, penalty++
+            q.push({enode.node,
+                    enode.distance + 1,
+                    enode.index + 1});
             for (auto &it : enode.node->children) {
+                // Compute penalty of taking edge
                 penalty = traverseEdge(&mat, pattern, enode.index, it.second->start, *(it.second->end));
-                q.push({it.second, enode.distance + penalty, enode.index + mat.getSuffixTree()->getEdgeLength(it.second)});
+                q.push({it.second,
+                        enode.distance + penalty,
+                        enode.index + mat.getSuffixTree()->getEdgeLength(it.second) - penalty});
             }
         }
     }
 
     cout << "#######################" << endl;
-    mat.getSuffixTree()->printSuffixTree(bestNode, 0);
+    mat.getSuffixTree()->printSuffixTree(bestNode.node, 0);
     cout << "#######################" << endl;
 
-    if (bestNode->suffixIndex > -1) {
-        cout << super::stringifyPosition(super::getPositionData(&mat, bestNode)) << endl;
+    if (bestNode.node->suffixIndex > -1) {
+        cout << super::stringifyPosition(super::getPositionData(&mat, bestNode.node)) << endl;
     } else {
     }
     return 0;
@@ -95,40 +106,11 @@ int SearchClosestMatch::traverseEdge(Matrice *mat, vector<int> pattern, int idx,
     vector<MatItem> sentence = mat->getSuffixTree()->getSentence();
 
     for(int i(start); i <= end && idx < pattern.size(); i++, idx++) {
-        if (sentence[i].isSeparator)
-                return penalty + (pattern.size() - idx - 1); // Pattern not finished. We add penality for remaining values.
+        // if (sentence[i].isSeparator)
+        //         return penalty + (pattern.size() - idx - 1); // Pattern not finished. We add penality for remaining values.
         if (sentence[i].v != pattern[idx])
             penalty++; // hamming distance
      }
 
     return penalty; // Pattern is bigger than the edge, processing continue later.
 }
-
-/**
- * doTraversalToCountLeaf
- * @brief DFS to count leaf.
- * Method used to find full list of match and a pattern has been found
- * and severals branch/leafs are under it (so matchs in different sentences)..
- * @param {Matrice*} mat - matrice data structure
- * @param {Node*} node - node currently visited.
- * @return {int} total number of match.
- */
-int SearchClosestMatch::doTraversalToCountLeaf(Matrice *mat, Node *node, vector<Position> *result) {
-    if (node == nullptr)
-        return 0;
-
-    if (node->suffixIndex > -1 ){
-        result->push_back(super::getPositionData(mat, node));
-        return 1;
-    }
-
-    int count(0);
-    map<MatItem, SuffixTreeNode*>::iterator it;
-    for (auto it : node->children) {
-        count += doTraversalToCountLeaf(mat, it.second, result);
-    }
-
-    return count;
-
-}
-

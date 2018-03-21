@@ -19,7 +19,7 @@ struct ExplorationNode {
 
 struct Comp {
     bool operator() (const ExplorationNode &a, const ExplorationNode &b) const {
-        return a.distance > b.distance;
+        return a.distance < b.distance;
     }
 };
 

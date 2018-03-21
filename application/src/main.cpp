@@ -26,8 +26,11 @@ int main(int argc, const char * argv[]) {
     vec.push_back({98, false});
     vec.push_back({4, true});
 
+    pattern.push_back(220);
     pattern.push_back(97);
+    pattern.push_back(220);
     pattern.push_back(120);
+    pattern.push_back(220);
 
     mat.setRows(2);
     mat.setCols(3);

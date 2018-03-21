@@ -34,6 +34,13 @@ struct SuffixTreeNode {
     int start;
     int *end;
     int suffixIndex;
+
+    bool operator==(const SuffixTreeNode& a) const {
+        return a.suffixLink == this->suffixLink
+            && a.start == this->start
+            && *(a.end) == *(this->end)
+            && a.suffixIndex == this->suffixIndex;
+    }
 };
 
 typedef SuffixTreeNode Node;
@@ -42,9 +49,17 @@ struct ActivePoint {
     Node *activeNode = nullptr;
     int activeEdge = 0;
     int activeLength = 0;
+
+    bool operator==(const ActivePoint& a) const {
+        return a.activeNode == this->activeNode
+            && a.activeEdge == this->activeEdge
+            && a.activeLength == this->activeLength;
+    }
 };
 
 class SuffixTree {
+    friend class SuffixTreeTest;
+
     Node *root;
     Node *lastNewNode;
     ActivePoint activePoint;
