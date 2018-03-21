@@ -6,11 +6,11 @@
 
 #include "SuffixTree.hpp"
 
+using namespace std;
+
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<vvi> vvvi;
-
-using namespace std;
 
 class Matrice {
     Node *root;

@@ -12,16 +12,18 @@
 
 struct ExplorationNode {
     Node* node;
-    Node* parentNode;
     int distance;
     int index;
 
-    bool operator< (const ExplorationNode &n) const {
-        return this->distance < n.distance;
+};
+
+struct Comp {
+    bool operator() (const ExplorationNode &a, const ExplorationNode &b) const {
+        return a.distance > b.distance;
     }
 };
 
-typedef priority_queue<ExplorationNode, vector<ExplorationNode>> pq;
+typedef priority_queue<ExplorationNode, vector<ExplorationNode>, Comp> pq;
 
 using namespace std;
 
@@ -35,6 +37,7 @@ class SearchClosestMatch : public Search {
         string stringifyResult(vector<Position>);
         int matriceTraversal(Matrice mat, Node*, vector<int>, int, vector<Position>*);
         int traverseEdge(Matrice *mat, vector<int>, int, int, int);
+        int doTraversalToCountLeaf(Matrice*, Node*, vector<Position>*);
 };
 
 #endif
