@@ -15,8 +15,6 @@ class SuffixTreeTest : public CppUnit::TestFixture {
     CPPUNIT_TEST( testBuildSuffixTree );
     CPPUNIT_TEST( testCreateNewNode );
     CPPUNIT_TEST( testWalkDown );
-    CPPUNIT_TEST( testExtendSuffixTree );
-    CPPUNIT_TEST( testSetSuffixIndex );
     CPPUNIT_TEST_SUITE_END();
 
     public:
@@ -24,8 +22,7 @@ class SuffixTreeTest : public CppUnit::TestFixture {
         void testBuildSuffixTree();
         void testCreateNewNode();
         void testWalkDown();
-        void testExtendSuffixTree();
-        void testSetSuffixIndex();
+        void testGetEdgeLength();
 };
 
 #endif

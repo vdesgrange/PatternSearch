@@ -27,6 +27,7 @@ vector<Position> SearchSequence::searchOperation(Matrice *mat, vector<int> patte
  * stringifyResult
  * @brief Stringi the result of the pattern search.
  * @param {vector<Position>} vec - list of positions matching.
+ * @TODO - Only display one if several results in same row/col.
  * @return {string} Return the stringify result of the pattern search.
  */
 string SearchSequence::stringifyResult(vector<Position> vec) {

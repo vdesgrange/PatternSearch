@@ -13,8 +13,8 @@ SOURCESTEST := $(shell find $(TESTDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 OBJECTSTEST := $(patsubst $(TESTDIR)/%,$(BUILDDIR)/%,$(SOURCESTEST:.$(SRCEXT)=.o))
 CFLAGS := -std=c++1z -g -Wall -fstack-protector -m64 -stdlib=libc++
-LIB := -L lib/ -lpthread -lbotan-2 -L/usr/local/lib $(shell pkg-config --libs opencv) $(shell pkg-config --libs cppunit)
-INC := -I include/ -I/usr/local/include/botan-2 $(shell pkg-config --cflags opencv) $(shell pkg-config --cflags cppunit)
+LIB := -L lib/ -lpthread -lbotan-2 -L/usr/local/lib $(shell pkg-config --libs cppunit)
+INC := -I include/ -I/usr/local/include/botan-2 $(shell pkg-config --cflags cppunit)
 
 
 $(TARGET): $(OBJECTS)

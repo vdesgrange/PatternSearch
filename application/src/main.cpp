@@ -31,13 +31,5 @@ int main(int argc, const char **argv) {
 
     cli.workflow(mat);
 
-/*    pattern.push_back(57);
-    pattern.push_back(189);
-    pattern.push_back(68);
-    pattern.push_back(94);
-    pattern.push_back(62);
-
-    cout << Processing::applySearch("searchSequence", mat, pattern) << endl;
-*/
     return 0;
 }

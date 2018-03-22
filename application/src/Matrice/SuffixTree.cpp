@@ -351,7 +351,8 @@ void SuffixTree::setSuffixIndex(Node *node, int labelHeight) {
 
 /**
  * printSuffixTree
- * @brief Set suffix tree leaf index
+ * @brief Print suffix on console.
+ * Used for debugging.
  * @param {Node*} node - step node in the tree
  * @param {int} labelHeight - current index
  */
@@ -435,7 +436,6 @@ Node* SuffixTree::buildSuffixTree() {
     this->setSize(this->getSentence().size());
     rootEnd = new int();
     *rootEnd = -1;
-    //int rows(0);
 
     int percentage(0);
     root = createNewNode(-1, rootEnd);

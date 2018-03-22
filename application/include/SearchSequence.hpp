@@ -12,6 +12,8 @@
 using namespace std;
 
 class SearchSequence : public Search {
+    friend class SearchSequenceTest;
+
     public:
         SearchSequence();
         string doSearch(Matrice*, vector<int>);

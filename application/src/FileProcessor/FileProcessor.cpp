@@ -175,25 +175,3 @@ Matrice* FileProcessor::processMatrice(vvvi data) {
     mat->buildMatrice(data);
     return mat;
 }
-
-/**
- * \brief main method. Temporary.
- */
-/*int main(int argc, const char ** argv) {
-    string filePath = "";
-    string password = "";
-    string encFilePath = "";
-
-    cout << "Getting arguments : " << argc - 1 << endl;
-    if (argc == 2) {
-        filePath = argv[1];
-        FileProcessor::readFile(filePath);
-    } else if (argc == 3) {
-        filePath = argv[1];
-        password = argv[2];
-        encFilePath = FileProcessor::encryptFile(filePath,password);
-        FileProcessor::readFile(encFilePath, password);
-    }
-
-    return 0;
-}*/

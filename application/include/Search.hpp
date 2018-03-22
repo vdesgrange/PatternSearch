@@ -22,6 +22,13 @@ struct Position {
     int local;
     TypeLine type;
     int index;
+
+    bool operator==(const Position& a) const {
+        return (a.global == this->global
+            && a.local == this->local
+            && a.type == this->type
+            && a.index == this->index);
+    }
 };
 
 class Search {
