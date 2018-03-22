@@ -3,15 +3,11 @@
 Processing::Processing() {
 }
 
-string Processing::applySearch(string searchOperation, Matrice *mat, vector<int> sequence) {
-    map<string, Operation> op;
-    op["searchSequence"] = Operation::searchSequence;
-    op["searchUnordered"] = Operation::searchUnordered;
-    op["searchClosestMatch"] = Operation::searchClosestMatch;
+string Processing::applySearch(Operation searchOperation, Matrice *mat, vector<int> sequence) {
     string result = "";
     Search *searchClass;
 
-    switch(op[searchOperation]) {
+    switch(searchOperation) {
         case 0 :
             searchClass = new SearchSequence();
             result = searchClass->doSearch(mat, sequence);

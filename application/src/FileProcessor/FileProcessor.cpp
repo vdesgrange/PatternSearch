@@ -79,7 +79,9 @@ string FileProcessor::decryptFile(string filePath, string password) {
  * \return {string} path of cipher file.
  */
 string FileProcessor::encryptFile(string filePath, string password) {
+    cout << "Encryption of " << filePath << endl;
     string cipherFilePath = Crypting::encryptFileContent(filePath, password);
+    cout << "Encrypted at " << cipherFilePath << endl;
     return cipherFilePath;
 }
 

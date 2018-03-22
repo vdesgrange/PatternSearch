@@ -21,7 +21,7 @@ enum Operation {
 class Processing {
     public:
         Processing();
-        static string applySearch(string, Matrice*, vector<int>);
+        static string applySearch(Operation, Matrice*, vector<int>);
 };
 
 #endif
