@@ -28,6 +28,8 @@ typedef priority_queue<ExplorationNode, vector<ExplorationNode>, Comp> pq;
 using namespace std;
 
 class SearchClosestMatch : public Search {
+    friend class SearchClosestMatchTest;
+
     public:
         SearchClosestMatch();
         string doSearch(Matrice*, vector<int>);
