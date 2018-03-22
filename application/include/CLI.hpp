@@ -28,10 +28,11 @@ class CLI {
         ~CLI();
         Matrice* getMatrice();
         void setMatrice(Matrice*);
-        static Action processUserEntry(string);
+        void workflow(Matrice*);
+    private:
+        Action processUserEntry(string);
         string actionController(Action);
         void displayResult(Action, string);
-        void workflow(Matrice*);
 };
 
 #endif

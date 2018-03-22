@@ -17,10 +17,8 @@ class Crypting {
 }
 
 class Matrice
-class CLI
 
 FileProcessor "1" -- "1" Crypting
 FileProcessor "1" o-- "1" Matrice
-FileProcessor "1" <-- "1" CLI
 
 @enduml

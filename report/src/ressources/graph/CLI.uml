@@ -1,29 +1,31 @@
 @startuml
 
-package CommandLineInterface {
-    class CLI {
-        -string filePath
-        -Matrice matriceObject
-        -void setMatrice(Matrice)
-        -void processArgs()
-        +
-    }
+class CLI {
+    -Matrice* mat
+    +Matrice* getMatrice()
+    +void setMatrice(Matrice*)
+    +void workflow(Matrice*)
+    -Action processUserEntry(string)
+    -string actionController(Action)
+    -void displayResult(Action, string)
 
-    class EntryProcessing {
-        +pair<string, int[]> processEntry(string)
-        +void applyOperation(string, MatriceObject)
-        +void printResult(hashmap<string, vector<int>>)
-    }
-    CLI "1" --> "1" EntryProcessing
 }
 
+enum Operation {
+    searchSequence
+    searchUnordered
+    searchClosestMatch
+}
 
-class FileProcessor
-class MatriceObject
-class OperationManagement
+object Action {
+    Operation op
+    vector<int> sequence
+}
 
-CLI -- OperationManagement
-CLI -- FileProcessor
-CLI o-- MatriceObject
+class Matrice
+
+Action "1" o-- "1" Operation
+CLI "1" o-- "1..*" Action
+CLI o-- Matrice
 
 @enduml
