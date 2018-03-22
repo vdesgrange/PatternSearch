@@ -3,10 +3,16 @@
   <h2 align=center>C++ Matrix search pattern exercise</h2>
 
   <p align="center">
+  <b><a href="#installation">Features</a></b>
+  |
   <b><a href="#installation">Installation</a></b>
   |
   <b><a href="#contributing">Contributing</a></b>
 </p>
+
+## Introduction
+
+C++ program to research pattern of integers into plain text matrice of integers.
 
 ## Features
 
@@ -15,23 +21,44 @@
 * Sprint Planification.
 * Application systems details.
 * Algorithms research.
+* Selected data structure
+* Search algorithms
+* Solution class diagram
 
 ### Application features
 * Encrypt/Decrypt file with AES-256.
+* Build generalised suffix tree from plain text matrice.
+* Search sequence feature
+* Search closest match feature
+* Search unordered feature
+* Simple CLI
 
 ## Installation
 
-*You must have usual C++ compiler.
+*You must have usual C++ compiler (g++, clang).
 *You must have Botan crypto library (>= 2.4.x) installed.
+*You muse have CppUnit library.
 
 ### Mac OS X / Linux
 
-> Put matrix file into application/files folder.
-> Run `make clean; make;`
+> Put matrix file into : `./application/files` folder.
 
-* Test
-> Run `make test`
+* Program
 
+```
+## compile program
+make clean; make;
+
+## execute program
+bin/main
+
+## Compile test
+make clean; make test
+
+## Execute test
+./bin/tester
+
+```
 ## Contributing
 
 Viviane Desgrange
