@@ -25,11 +25,11 @@ class FileProcessor {
         static vvvi readFile(string);
         static void toString(vvvi);
         static string fileNameGenerator(const int, string);
+        static Matrice* processMatrice(vvvi);
 
     private:
         static string decryptFile(string, string);
         static vvi processLine(string);
-        static Matrice* processMatrice(vvvi);
 };
 
 #endif

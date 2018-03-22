@@ -26,12 +26,12 @@ struct Position {
 
 class Search {
     public:
-        virtual string doSearch(Matrice, vector<int>) = 0;
+        virtual string doSearch(Matrice*, vector<int>) = 0;
         static Position getPositionData(Matrice*, Node*);
         static string stringifyPosition(Position);
 
     private:
-        virtual vector<Position> searchOperation(Matrice, vector<int>) = 0;
+        virtual vector<Position> searchOperation(Matrice*, vector<int>) = 0;
         virtual string stringifyResult(vector<Position>) = 0;
 };
 

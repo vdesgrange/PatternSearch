@@ -6,7 +6,7 @@ SearchSequence::SearchSequence() {
 /**
  * doSearch
  */
-string SearchSequence::doSearch(Matrice mat, vector<int> sequence) {
+string SearchSequence::doSearch(Matrice *mat, vector<int> sequence) {
     cout << "Make sequence research." << endl;
     vector<Position> result = searchOperation(mat, sequence);
     return stringifyResult(result);
@@ -15,10 +15,10 @@ string SearchSequence::doSearch(Matrice mat, vector<int> sequence) {
 /**
  * searchOperation
  */
-vector<Position> SearchSequence::searchOperation(Matrice mat, vector<int> pattern) {
+vector<Position> SearchSequence::searchOperation(Matrice *mat, vector<int> pattern) {
     vector<Position> result;
     int numberMatching(0);
-    Node *root = mat.getRoot();
+    Node *root = mat->getRoot();
     numberMatching = matriceTraversal(mat, root, pattern, 0, &result);
     return result;
 }
@@ -53,27 +53,27 @@ string SearchSequence::stringifyResult(vector<Position> vec) {
  * @param {int} index - current index into pattern
  * @return {int} Number of matching.
  */
-int SearchSequence::matriceTraversal(Matrice mat, Node *node, vector<int> pattern, int index, vector<Position> *result) {
+int SearchSequence::matriceTraversal(Matrice *mat, Node *node, vector<int> pattern, int index, vector<Position> *result) {
     if (node == nullptr)
         return -1;
 
     int res(-1);
     if (node->start != -1) {
-        res = traverseEdge(&mat, pattern, index, node->start, *(node->end));
+        res = traverseEdge(mat, pattern, index, node->start, *(node->end));
         if (res == -1)
             return -1;
 
         if (res == 1) {
             if (node->suffixIndex > -1) {
-                result->push_back(super::getPositionData(&mat, node));
+                result->push_back(super::getPositionData(mat, node));
             } else {
-                doTraversalToCountLeaf(&mat, node, result);
+                doTraversalToCountLeaf(mat, node, result);
             }
             return 1;
         }
     }
 
-    index = index + mat.getSuffixTree()->getEdgeLength(node);
+    index = index + mat->getSuffixTree()->getEdgeLength(node);
 
     MatItem item = {pattern[index], false};
     if (node->children[item]) {

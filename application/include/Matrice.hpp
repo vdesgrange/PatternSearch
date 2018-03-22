@@ -2,6 +2,7 @@
 #define Matrice_hpp
 
 #include <iostream>
+#include <vector>
 #include <string>
 
 #include "SuffixTree.hpp"

@@ -437,13 +437,15 @@ Node* SuffixTree::buildSuffixTree() {
     *rootEnd = -1;
     //int rows(0);
 
+    int percentage(0);
     root = createNewNode(-1, rootEnd);
     setActivePoint(root, -1, 0);
     for (int i(0); i < sentence.size(); i++) {
+        if (i / sentence.size() * 100 > percentage) {
+            cout << i << "%" << endl;
+            percentage++;
+        }
         extendSuffixTree(i, sentence);
-        //if (sentence.at(i).isSeparator)
-        //    rowsIndexer.insert(pair<int,int>(i, rows++));
-
     }
     int labelHeight = 0;
     setSuffixIndex(root, labelHeight);

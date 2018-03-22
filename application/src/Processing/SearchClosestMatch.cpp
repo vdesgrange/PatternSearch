@@ -3,7 +3,7 @@
 SearchClosestMatch::SearchClosestMatch() {
 }
 
-string SearchClosestMatch::doSearch(Matrice mat, vector<int> sequence) {
+string SearchClosestMatch::doSearch(Matrice *mat, vector<int> sequence) {
     cout << "Make sequence research." << endl;
     vector<Position> result = searchOperation(mat, sequence);
     return stringifyResult(result);
@@ -12,10 +12,10 @@ string SearchClosestMatch::doSearch(Matrice mat, vector<int> sequence) {
 /**
  * searchOperation
  */
-vector<Position> SearchClosestMatch::searchOperation(Matrice mat, vector<int> pattern) {
+vector<Position> SearchClosestMatch::searchOperation(Matrice *mat, vector<int> pattern) {
     vector<Position> result;
     int numberMatching(0);
-    Node *root = mat.getRoot();
+    Node *root = mat->getRoot();
     numberMatching = matriceTraversal(mat, root, pattern, 0, &result);
     return result;
 }
@@ -44,7 +44,7 @@ string SearchClosestMatch::stringifyResult(vector<Position> vec) {
  * @param {int} index - current index into pattern
  * @return {int} Number of matching.
  */
-int SearchClosestMatch::matriceTraversal(Matrice mat, Node *node, vector<int> pattern, int index, vector<Position> *result) {
+int SearchClosestMatch::matriceTraversal(Matrice *mat, Node *node, vector<int> pattern, int index, vector<Position> *result) {
     pq q;
     q.push({node, 0, 0});
     int penalty(0);
@@ -71,21 +71,22 @@ int SearchClosestMatch::matriceTraversal(Matrice mat, Node *node, vector<int> pa
                     enode.index + 1});
             for (auto &it : enode.node->children) {
                 // Compute penalty of taking edge
-                penalty = traverseEdge(&mat, pattern, enode.index, it.second->start, *(it.second->end));
+                penalty = traverseEdge(mat, pattern, enode.index, it.second->start, *(it.second->end));
                 q.push({it.second,
                         enode.distance + penalty,
-                        enode.index + mat.getSuffixTree()->getEdgeLength(it.second) - penalty});
+                        enode.index + mat->getSuffixTree()->getEdgeLength(it.second) - penalty});
             }
         }
     }
 
     cout << "#######################" << endl;
-    mat.getSuffixTree()->printSuffixTree(bestNode.node, 0);
+    //mat->getSuffixTree()->printSuffixTree(bestNode.node, 0);
     cout << "#######################" << endl;
 
     if (bestNode.node->suffixIndex > -1) {
-        cout << super::stringifyPosition(super::getPositionData(&mat, bestNode.node)) << endl;
+        cout << super::stringifyPosition(super::getPositionData(mat, bestNode.node)) << endl;
     } else {
+        cout << super::stringifyPosition(super::getPositionData(mat, bestNode.node)) << endl;
     }
     return 0;
 }

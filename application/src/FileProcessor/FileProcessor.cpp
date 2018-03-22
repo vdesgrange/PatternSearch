@@ -122,7 +122,9 @@ vvvi FileProcessor::readFile(string filePath) {
         if (inputFile.is_open()) {
             while (!inputFile.eof()) {
                 getline(inputFile, line);
-                fileContent.push_back(FileProcessor::processLine(line));
+                if (!line.empty()) {
+                    fileContent.push_back(FileProcessor::processLine(line));
+                }
             }
         } else {
             throw "Error : File lecture failed.";
@@ -143,6 +145,9 @@ vvvi FileProcessor::readFile(string filePath) {
  */
 void FileProcessor::toString(vvvi source) {
     cout << "Number of elements : " <<  (source.size() * source.front().size()) << endl;
+    cout << "Number of rows : " << source.size() << endl;
+    if (source.size() > 0)
+        cout << "Number of columns : " << source.front().size() << endl;
     cout << "Matrice" << endl;
 
     for (const auto& row : source) {
@@ -163,8 +168,10 @@ void FileProcessor::toString(vvvi source) {
  * \param {vvvi} data - simple matrice data structure
  * \return {Matrice} complexe Matrice data structure
  */
-Matrice* processMatrice(vvvi data) {
-    return new Matrice();
+Matrice* FileProcessor::processMatrice(vvvi data) {
+    Matrice *mat = new Matrice();
+    mat->buildMatrice(data);
+    return mat;
 }
 
 /**

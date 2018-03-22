@@ -47,11 +47,11 @@ Position Search::getPositionData(Matrice *mat, Node *node) {
 */
 string Search::stringifyPosition(Position pos) {
     stringstream out;
-    out << "Found at position " << pos.local;
+   // out << "Found at position " << pos.local; // Not local position working well.
     if (pos.type == row) {
-        out << " in row " << pos.index;
+        out << "Found in row " << pos.index;
     } else if (pos.type == col){
-        out << " in col " << pos.index;
+        out << "Found in col " << pos.index;
     }
 
    return out.str();

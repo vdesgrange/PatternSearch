@@ -14,10 +14,10 @@ using namespace std;
 class SearchUnordered : public Search {
     public:
         SearchUnordered();
-        string doSearch(Matrice, vector<int>);
+        string doSearch(Matrice*, vector<int>);
     private:
         typedef Search super;
-        vector<Position> searchOperation(Matrice, vector<int>);
+        vector<Position> searchOperation(Matrice*, vector<int>);
         string stringifyResult(vector<Position>);
 };
 

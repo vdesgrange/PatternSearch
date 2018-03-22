@@ -3,7 +3,7 @@
 SearchUnordered::SearchUnordered() {
 }
 
-string SearchUnordered::doSearch(Matrice mat, vector<int> sequence) {
+string SearchUnordered::doSearch(Matrice *mat, vector<int> sequence) {
     cout << "Make sequence research." << endl;
     vector<Position> result = searchOperation(mat, sequence);
     return stringifyResult(result);
@@ -12,10 +12,10 @@ string SearchUnordered::doSearch(Matrice mat, vector<int> sequence) {
 /**
  * searchOperation
  */
-vector<Position> SearchUnordered::searchOperation(Matrice mat, vector<int> pattern) {
+vector<Position> SearchUnordered::searchOperation(Matrice *mat, vector<int> pattern) {
     vector<Position> result;
     int numberMatching(0);
-    Node *root = mat.getRoot();
+    Node *root = mat->getRoot();
     return result;
 }
 

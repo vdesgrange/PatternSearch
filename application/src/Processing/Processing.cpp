@@ -3,7 +3,7 @@
 Processing::Processing() {
 }
 
-string Processing::applySearch(string searchOperation, Matrice mat, vector<int> sequence) {
+string Processing::applySearch(string searchOperation, Matrice *mat, vector<int> sequence) {
     map<string, Operation> op;
     op["searchSequence"] = Operation::searchSequence;
     op["searchUnordered"] = Operation::searchUnordered;
