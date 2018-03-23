@@ -74,6 +74,7 @@ In our case this data structure would suits perfectly since we have to handle pa
 
 \subsection{Search in suffix tree}
 
+\subsubsection{Sequence search}
 \par
 Search sequence feature (matching of the full sequence), should be the most simple feature to implement.
 With the generalised suffix tree, in order to match the integer sequence, we will implement a deep-first search algorithm.
@@ -87,13 +88,28 @@ With the generalised suffix tree, in order to match the integer sequence, we wil
 This way we can easily find the number of match, its location into the suffix tree and matrix.
 \bigskip
 
+\subsubsection{Closest match search}
 \par
 Search closest match feature (matching of an uncomplete or divided sequence) should be more difficult. This is a k-difference problem. In order to stay in correct time, we will have to fix a limit k to closest matching.
 We can consider solution such has Dynamic programming. However we will probably have to perform the search in O(nm).
 
+\par
+An other approach I decide, was to not look at the k-difference problem, since we only want to get one closest match.\\
+Selecting a simple distance method, let's consider the Hamming distance, we could be able to go through the suffix tree,
+short sequences by their Hamming distance, and return the most closed value to the researched sequence.\\
+
+\par
+Unfortunately, I wasn't able to find a proper implementation of this search feature, which would be of simple complexity and fast.
 \bigskip
 
+\subsubsection{Unordered search}
 \par
 Search unordered match feature, can have different solution.\\
 The most simple one would be to construct a new suffix tree. By ordering the item of the matrix from smallest to biggest for every rows and columns.\\
-After that we could just have to remove every element from our sequence (represented by a vector) while going through the tree. And stop when we arrived at the end of a branch, or that we have an empty sequence.\\
+After that we could just have to remove every element from our sequence (represented by a vector) while going through the tree.
+And stop when we arrived at the end of a branch, or that we have an empty sequence. However this solution would require to construct a new tree, which would be
+time consuming.\\
+
+\par
+Unfortunately, I wasn't able to find a proper implementation of this search feature, which would be of simple complexity and fast.
+\bigskip
