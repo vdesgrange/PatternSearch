@@ -29,8 +29,8 @@ C++ program to research pattern of integers into plain text matrice of integers.
 * Encrypt/Decrypt file with AES-256.
 * Build generalised suffix tree from plain text matrice.
 * Search sequence feature
-* Search closest match feature
-* Search unordered feature
+* Search closest match feature (not implemented)
+* Search unordered feature (not implemented)
 * Simple CLI
 
 ## Installation
@@ -43,14 +43,27 @@ C++ program to research pattern of integers into plain text matrice of integers.
 
 > Put matrix file into : `./application/files` folder.
 
+* Report
+
+```
+## compile report
+make clean; make;
+
+## access to report : doc/report.pdf
+```
+
 * Program
 
 ```
 ## compile program
 make clean; make;
 
+## execute program and encrypt file
+./bin/main encrypt ./files/matrice.txt myPassword
+
 ## execute program
-bin/main
+./bin/main ./files/matrice.txt
+./bin/main ./files/cipherFile myPassword
 
 ## Compile test
 make clean; make test
