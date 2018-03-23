@@ -11,7 +11,7 @@ int main(int argc, const char **argv) {
     vector<int> pattern;
     string filePath = "";
     string password = "";
-    string encrypt = "encrypt";
+    string encrypt;
     CLI cli;
 
     cout << "Getting arguments : " << argc - 1 << endl;
@@ -19,17 +19,22 @@ int main(int argc, const char **argv) {
         filePath = argv[1];
         simpleMat = FileProcessor::readFile(filePath);
         mat = FileProcessor::processMatrice(simpleMat);
+        cli.workflow(mat);
     } else if (argc == 3) {
         filePath = argv[1];
         password = argv[2];
         simpleMat = FileProcessor::readFile(filePath, password);
         mat = FileProcessor::processMatrice(simpleMat);
-    } else if (argc == 4 && argv[1] == encrypt.c_str()) {
-        FileProcessor::encryptFile(filePath,password);
+        cli.workflow(mat);
+    } else if (argc == 4) {
+        encrypt = argv[1];
+        if (encrypt == "encrypt") {
+            filePath = argv[2];
+            password = argv[3];
+            FileProcessor::encryptFile(filePath,password);
+        }
         return 0;
     }
-
-    cli.workflow(mat);
 
     return 0;
 }
