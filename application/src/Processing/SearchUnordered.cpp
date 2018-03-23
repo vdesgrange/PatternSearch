@@ -4,7 +4,7 @@ SearchUnordered::SearchUnordered() {
 }
 
 string SearchUnordered::doSearch(Matrice *mat, vector<int> sequence) {
-    cout << "Make sequence research." << endl;
+    cout << "Make unordered research. \n Unordered search not implemented." << endl;
     vector<Position> result = searchOperation(mat, sequence);
     return stringifyResult(result);
 }

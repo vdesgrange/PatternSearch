@@ -99,8 +99,12 @@ string CLI::actionController(Action action) {
  * @return {void}
  */
 void CLI::displayResult(Action action, string result) {
-    cout << "Operation succeed. Operation results are the following : \n";
-    cout << result << endl;
+    if (!result.empty()) {
+        cout << "Operation succeed. Operation results are the following : \n";
+        cout << result << endl;
+    } else {
+        cout << "No matching." << endl;
+    }
     return;
 }
 

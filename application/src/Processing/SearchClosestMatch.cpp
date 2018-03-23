@@ -4,7 +4,7 @@ SearchClosestMatch::SearchClosestMatch() {
 }
 
 string SearchClosestMatch::doSearch(Matrice *mat, vector<int> sequence) {
-    cout << "Make sequence research." << endl;
+    cout << "Make closest match research." << endl;
     vector<Position> result = searchOperation(mat, sequence);
     return stringifyResult(result);
 }
@@ -51,9 +51,9 @@ string SearchClosestMatch::stringifyResult(vector<Position> vec) {
  */
 int SearchClosestMatch::matriceTraversal(Matrice *mat, Node *node, vector<int> pattern, int index, vector<Position> *result) {
     pq q;
-    q.push({node, 1000000, 0});
+    q.push({node, 0, 0});
     int penalty(0);
-    ExplorationNode bestNode = {nullptr, 10000000, 0};
+    ExplorationNode bestNode = {nullptr, 0, 0};
 
     if (node == nullptr)
         return -1;
@@ -63,33 +63,21 @@ int SearchClosestMatch::matriceTraversal(Matrice *mat, Node *node, vector<int> p
         q.pop();
 
         // Exploration Node better than what we found earlier
-        if (enode.index > bestNode.index && enode.distance <= bestNode.distance) {
-            cout << "c" << endl;
+        if ((enode.index > bestNode.index) && (enode.index - enode.distance <= enode.index - bestNode.distance)) {
             bestNode = enode;
-            cout << bestNode.node->children.size() << endl;
         }
 
-        if (enode.index >= pattern.size()) {
-            // Shortest path to find pattern
-            break;
-        } else {
-            // Ignore letter, penalty++
-            q.push({enode.node,
-                    enode.distance + 1,
-                    enode.index + 1});
-            for (auto &it : enode.node->children) {
-                // Compute penalty of taking edge
-                penalty = traverseEdge(mat, pattern, enode.index, it.second->start, *(it.second->end));
-                q.push({it.second,
-                        enode.distance + penalty,
-                        enode.index + mat->getSuffixTree()->getEdgeLength(it.second) - penalty});
-            }
+        if (enode.index >= pattern.size())
+            continue;
+        // Ignore letter, penalty++
+        for (auto &it : enode.node->children) {
+            // Compute penalty of taking edge
+            penalty = traverseEdge(mat, pattern, enode.index, it.second->start, *(it.second->end));
+            q.push({it.second,
+                    enode.distance + penalty,
+                    enode.index + mat->getSuffixTree()->getEdgeLength(it.second) - penalty});
         }
     }
-
-    cout << "####" << endl;
-    mat->getSuffixTree()->printSuffixTree(bestNode.node, 0);
-    cout << "####" << endl;
 
     if (bestNode.node != nullptr && bestNode.node->suffixIndex > -1) {
         result->push_back(super::getPositionData(mat, bestNode.node));
@@ -114,12 +102,14 @@ int SearchClosestMatch::traverseEdge(Matrice *mat, vector<int> pattern, int idx,
     int penalty(0);
     vector<MatItem> sentence = mat->getSuffixTree()->getSentence();
 
-    for(int i(start); i <= end && idx < pattern.size(); i++, idx++) {
-        // if (sentence[i].isSeparator)
-        //         return penalty + (pattern.size() - idx - 1); // Pattern not finished. We add penality for remaining values.
-        if (sentence[i].v != pattern[idx])
+    int i;
+    for(i = start; i <= end && idx < pattern.size(); i++, idx++) {
+        if (sentence[i].v != pattern[idx] || sentence[i].isSeparator)
             penalty++; // hamming distance
      }
+
+    if (i > end && sentence[i-1].isSeparator)
+        penalty += pattern.size() - idx; // hamming distance
 
     return penalty; // Pattern is bigger than the edge, processing continue later.
 }

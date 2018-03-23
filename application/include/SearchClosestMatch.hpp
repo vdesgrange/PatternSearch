@@ -10,6 +10,8 @@
 #include "Matrice.hpp"
 #include "Search.hpp"
 
+using namespace std;
+
 struct ExplorationNode {
     Node* node;
     int distance;
@@ -19,13 +21,11 @@ struct ExplorationNode {
 
 struct Comp {
     bool operator() (const ExplorationNode &a, const ExplorationNode &b) const {
-        return a.distance < b.distance;
+            return (a.index > b.index) && (a.index - a.distance > b.index - b.distance);
     }
 };
 
 typedef priority_queue<ExplorationNode, vector<ExplorationNode>, Comp> pq;
-
-using namespace std;
 
 class SearchClosestMatch : public Search {
     friend class SearchClosestMatchTest;
